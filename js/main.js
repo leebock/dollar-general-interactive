@@ -6,13 +6,12 @@
 
 	var GLOBAL_CLASS_USETOUCH = "touch";
 	var SERVICE_URL = "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/merged_retail/FeatureServer/0";
+	var STATE = "FL";
 	
 	var _map;
+	var _queryManager;
 	
-	var BNDS_LOWER48 = [
-		[24.7433195, -124.7844079],
-		[49.3457868, -66.9513812]
-	];
+	var BNDS_LOWER48 = [[24.743, -124.784], [49.345, -66.951]];
 
 	$(document).ready(function() {
 		
@@ -59,9 +58,23 @@
 			function(){$("html body").addClass(GLOBAL_CLASS_USETOUCH);}
 		);
 		
-		new QueryManager(SERVICE_URL).getRecords(
-			"NH", 
-			function(results){console.log(results);}
+		console.log(STATE);
+		_queryManager = new QueryManager(SERVICE_URL);
+		_queryManager.getStarbucks(
+			STATE, 
+			function(results){console.log("Starbucks: ", results.length);}
+		);
+		_queryManager.getWalmarts(
+			STATE,
+			function(results){console.log("Walmarts ", results.length);}
+		);
+		_queryManager.getDollarGenerals(
+			STATE,
+			function(results){console.log("Dollar Generals ", results.length);}
+		);
+		_queryManager.getWholeFoods(
+			STATE,
+			function(results){console.log("Whole Foods ", results.length);}
 		);
 
 	});

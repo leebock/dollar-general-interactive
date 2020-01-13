@@ -4,10 +4,9 @@ function QueryManager(URL)
 	return this;
 }
 
-QueryManager.prototype.getCount = function(state, callBack)
+QueryManager.prototype._getCount = function(where, callBack)
 {
-    
-    var where = "STATE = '"+state+"'"/*+" AND "+"CONAME like '%dollar%'"*/;
+
     var request = this._URL+"/query"+
                 "?where="+encodeURIComponent(where)+
 				"&outFields=*"+
@@ -23,49 +22,72 @@ QueryManager.prototype.getCount = function(state, callBack)
     
 };
 
-QueryManager.prototype.getRecords = function(state, callBack)
+QueryManager.prototype._getRecords = function(where, callBack)
 {
 
 	var self = this;	
 	var results = [];
 	
-	this.getCount(
-		state,
+	this._getCount(
+		where,
 		function(count) {
-
-			var where = "STATE = '"+state+"'";
-			console.log(count);
 			
 			function processData(data)
 			{
-				console.log("Records returned: "+data.features.length);
 				results = results.concat(
 					$.map(
 						data.features, 
 						function(value){return new Record(value.attributes);}
 					)
 				);
-				console.log(results.length, count);
-				console.log(results.length === count);
 				if (results.length === count) {
 					callBack(results);
 				}
 			}
 			
 			for (var i=0; i < Math.ceil(count/2000); i++) {
-
 				var request = self._URL+"/query"+
 			                "?where="+encodeURIComponent(where)+
 							"&resultOffset="+(i*2000)+
 							"&resultRecordCount=2000"+
 			                "&outFields=*"+
 			                "&f=pjson";
-							
 				$.getJSON(request, processData);		
-
 			}
 			
 		}
 	);
         
+};
+
+QueryManager.prototype.getStarbucks = function(state, callBack)
+{
+	this._getRecords(
+		"STATE = '"+state+"' AND CONAME like '%starbucks%'",
+		callBack
+	);
+};
+
+QueryManager.prototype.getWalmarts = function(state, callBack)
+{
+	this._getRecords(
+		"STATE = '"+state+"' AND CONAME like '%walmart%'",
+		callBack
+	);
+};
+
+QueryManager.prototype.getDollarGenerals = function(state, callBack)
+{
+	this._getRecords(
+		"STATE = '"+state+"' AND CONAME like '%dollar%'",
+		callBack
+	);
+};
+
+QueryManager.prototype.getWholeFoods = function(state, callBack)
+{
+	this._getRecords(
+		"STATE = '"+state+"' AND CONAME like '%whole%'",
+		callBack
+	);
 };
