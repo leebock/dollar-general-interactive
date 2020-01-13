@@ -5,18 +5,13 @@
 	//var WIDTH_THRESHOLD = 768;
 
 	var GLOBAL_CLASS_USETOUCH = "touch";
-	var SPREADSHEET_URL =  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ7OZXMn9kkBwlOfYcd-uLJ8j2slj_6wYd7ko_8eFrN5d4v5wp3hVvbKzF8nuSg8yWC3oWAF67O0EKd/pub?gid=0&single=true&output=csv";
-	if (window.location.hostname.toLowerCase() === "localhost") {
-		SPREADSHEET_URL = "/proxy/proxy.ashx?"+SPREADSHEET_URL;
-	} else {
-		SPREADSHEET_URL = "https://storymaps.esri.com/proxy/proxy.ashx?"+SPREADSHEET_URL;
-	}
 	
 	var _map;
-	var _layerMarkers;
-
-	var _records;	
-	var _selected;
+	
+	var BNDS_LOWER48 = [
+		[24.7433195, -124.7844079],
+		[49.3457868, -66.9513812]
+	];
 
 	$(document).ready(function() {
 		
@@ -39,12 +34,8 @@
 		)
 			.addLayer(L.esri.basemapLayer("NationalGeographic"))			
 			.addControl(L.control.attribution({position: 'bottomleft'}))
-			.on("click", onMapClick)
-			.on("moveend", onExtentChange);
-
-		_layerMarkers = L.featureGroup()
-			.addTo(_map)
-			.on("click", onMarkerClick);
+			.on("moveend", onExtentChange)
+			.fitBounds(BNDS_LOWER48);
 
 		if (!L.Browser.mobile) {
 			L.easyButton({
@@ -52,7 +43,7 @@
 					{
 						icon: "fa fa-home",
 						onClick: function(btn, map){
-							_map.fitBounds(_layerMarkers.getBounds());
+							_map.fitBounds(BNDS_LOWER48);
 						},
 						title: "Full extent"
 					}
@@ -60,56 +51,13 @@
 			}).addTo(_map);			
 		}
 
-		Papa.parse(
-			SPREADSHEET_URL, 
-			{
-				header: true,
-				download: true,
-				complete: function(data) {
-					_records = $.grep(
-						data.data, 
-						function(value){return value.Lat && value.Long;}
-					);
-					_records = $.map(
-						_records, 
-						function(value, index){return new Record(value, index);}
-					);
-					finish();
-				}
-			}
+		// one time check to see if touch is being used
+
+		$(document).one(
+			"touchstart", 
+			function(){$("html body").addClass(GLOBAL_CLASS_USETOUCH);}
 		);
 
-		function finish()
-		{
-
-			$.each(
-				_records, 
-				function(index, record) {
-
-					L.marker(
-						record.getLatLng(), 
-						{
-							riseOnHover: true
-						}
-					)
-						.bindPopup(record.getTitle(), {closeButton: false})
-						.bindTooltip(record.getTitle())
-						.addTo(_layerMarkers)
-						.key = record.getID();
-
-				}
-			);
-
-			_map.fitBounds(_layerMarkers.getBounds());
-
-			// one time check to see if touch is being used
-
-			$(document).one(
-				"touchstart", 
-				function(){$("html body").addClass(GLOBAL_CLASS_USETOUCH);}
-			);
-
-		}
 
 	});
 
@@ -117,19 +65,6 @@
 	********************** EVENTS that affect selection ************************
 	***************************************************************************/
 
-	function onMapClick(e)
-	{
-		_selected = null;
-	}
-
-	function onMarkerClick(e)
-	{
-		$(".leaflet-tooltip").remove();
-		_selected = $.grep(
-			_records, 
-			function(value){return value.getID() === e.layer.key;}
-		).shift();
-	}
 
 	/***************************************************************************
 	**************************** EVENTS (other) ********************************
