@@ -10,8 +10,8 @@
 	
 	var _map;
 	var _queryManager;
-	var _layerStarbucks;
-	var _layerDollarGenerals;
+	var _fg$Starbucks;
+	var _fg$DollarGenerals;
 	
 	var BNDS_LOWER48 = [[24.743, -124.784], [49.345, -66.951]];
 
@@ -54,11 +54,11 @@
 			}).addTo(_map);			
 		}
 		
-		_layerStarbucks = L.featureGroup()
+		_fg$Starbucks = L.featureGroup()
 			.addTo(_map)
 			.on("click", onMarkerClick);
 
-		_layerDollarGenerals = L.featureGroup()
+		_fg$DollarGenerals = L.featureGroup()
 			.addTo(_map)
 			.on("click", onMarkerClick);
 
@@ -74,13 +74,13 @@
 			STATE, 
 			function(results){
 				console.log("Starbucks: ", results.length);
-				_layerStarbucks.clearLayers();
+				_fg$Starbucks.clearLayers();
 				loadFeatureGroup(
-					_layerStarbucks, 
+					_fg$Starbucks, 
 					results, 						
 					{radius: 7, color: "white", fillColor: "green", fillOpacity: 1}
 				);
-				_map.flyToBounds(_layerStarbucks.getBounds());			
+				_map.flyToBounds(_fg$Starbucks.getBounds());			
 			}
 		);
 		_queryManager.getWalmarts(
@@ -91,9 +91,9 @@
 			STATE,
 			function(results){
 				console.log("Dollar Generals ", results.length);
-				_layerDollarGenerals.clearLayers();
+				_fg$DollarGenerals.clearLayers();
 				loadFeatureGroup(
-					_layerDollarGenerals, 
+					_fg$DollarGenerals, 
 					results, 
 					{radius: 7, color: "black", fillColor: "yellow", fillOpacity: 1}
 				);
@@ -112,7 +112,7 @@
 					L.circleMarker(record.getLatLng(), options)
 						.bindPopup(record.getName(), {closeButton: false})
 						.bindTooltip(record.getName())
-						.addTo(_layerStarbucks);
+						.addTo(featureGroup);
 
 				}
 			);	
