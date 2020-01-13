@@ -6,16 +6,18 @@
 
 	var GLOBAL_CLASS_USETOUCH = "touch";
 	var SERVICE_URL = "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/merged_retail/FeatureServer/0";
-	var STATE = "FL";
+	var STATE = "CA";
 	
 	var _map;
 	var _queryManager;
+	var _layerStarbucks;
 	
 	var BNDS_LOWER48 = [[24.743, -124.784], [49.345, -66.951]];
 
 	$(document).ready(function() {
 		
-		console.log(parseArgs());
+		STATE = parseArgs().state || STATE;
+		STATE = STATE.toUpperCase();
 
 		if (!inIframe()) {
 			new SocialButtonBar();
@@ -28,7 +30,7 @@
 			{
 				zoomControl: !L.Browser.mobile, 
 				attributionControl: false, 
-				maxZoom: 12, minZoom: 2, 
+				maxZoom: 16, minZoom: 2, 
 				worldCopyJump: true
 			}
 		)
@@ -50,6 +52,10 @@
 				]
 			}).addTo(_map);			
 		}
+		
+		_layerStarbucks = L.featureGroup()
+			.addTo(_map)
+			.on("click", onMarkerClick);
 
 		// one time check to see if touch is being used
 
@@ -58,11 +64,33 @@
 			function(){$("html body").addClass(GLOBAL_CLASS_USETOUCH);}
 		);
 		
-		console.log(STATE);
 		_queryManager = new QueryManager(SERVICE_URL);
 		_queryManager.getStarbucks(
 			STATE, 
-			function(results){console.log("Starbucks: ", results.length);}
+			function(results){
+				console.log("Starbucks: ", results.length);
+				_layerStarbucks.clearLayers();
+				$.each(
+					results, 
+					function(index, record) {
+	
+						L.circleMarker(
+							record.getLatLng(), 
+							{
+								radius: 7,
+								color: "white",
+								fillColor: "green",
+								fillOpacity: 1
+							}
+						)
+							.bindPopup(record.getName(), {closeButton: false})
+							.bindTooltip(record.getName())
+							.addTo(_layerStarbucks);
+	
+					}
+				);	
+				_map.flyToBounds(_layerStarbucks.getBounds());			
+			}
 		);
 		_queryManager.getWalmarts(
 			STATE,
@@ -82,7 +110,11 @@
 	/***************************************************************************
 	********************** EVENTS that affect selection ************************
 	***************************************************************************/
-
+	
+	function onMarkerClick(e)
+	{
+		$(".leaflet-tooltip").remove();
+	}
 
 	/***************************************************************************
 	**************************** EVENTS (other) ********************************
