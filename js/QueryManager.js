@@ -32,6 +32,20 @@ QueryManager.prototype._getRecords = function(where, callBack)
 		where,
 		function(count) {
 			
+			if (count === 0) {
+				callBack(results);
+			} else {
+				for (var i=0; i < Math.ceil(count/2000); i++) {
+					var request = self._URL+"/query"+
+				                "?where="+encodeURIComponent(where)+
+								"&resultOffset="+(i*2000)+
+								"&resultRecordCount=2000"+
+				                "&outFields=*"+
+				                "&f=pjson";
+					$.getJSON(request, processData);		
+				}
+			}			
+
 			function processData(data)
 			{
 				results = results.concat(
@@ -44,17 +58,7 @@ QueryManager.prototype._getRecords = function(where, callBack)
 					callBack(results);
 				}
 			}
-			
-			for (var i=0; i < Math.ceil(count/2000); i++) {
-				var request = self._URL+"/query"+
-			                "?where="+encodeURIComponent(where)+
-							"&resultOffset="+(i*2000)+
-							"&resultRecordCount=2000"+
-			                "&outFields=*"+
-			                "&f=pjson";
-				$.getJSON(request, processData);		
-			}
-			
+						
 		}
 	);
         
