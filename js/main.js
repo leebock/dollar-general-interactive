@@ -5,6 +5,7 @@
 	//var WIDTH_THRESHOLD = 768;
 
 	var GLOBAL_CLASS_USETOUCH = "touch";
+	var SERVICE_URL = "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/merged_retail/FeatureServer/0";
 	
 	var _map;
 	
@@ -57,7 +58,11 @@
 			"touchstart", 
 			function(){$("html body").addClass(GLOBAL_CLASS_USETOUCH);}
 		);
-
+		
+		new QueryManager(SERVICE_URL).getRecords(
+			"NH", 
+			function(results){console.log(results);}
+		);
 
 	});
 

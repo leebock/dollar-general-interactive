@@ -1,40 +1,34 @@
-function Record(json, index)
+function Record(json)
 {
-	this._id = index;
 	this._json = json;
 }
 
-Record.prototype.getID = function()
+Record.prototype.getName = function()
 {
-	return this._id;
+	return this._json.CONAME;
 };
 
-Record.prototype.getTitle = function()
+Record.prototype.getAddress = function()
 {
-	return this._json.Location;
+	return this._json.ADDR;
 };
 
-Record.prototype.getText = function()
+Record.prototype.getCity = function()
 {
-	return this._json.Text;
+	return this._json.CITY;
 };
 
-Record.prototype.getHint = function()
+Record.prototype.getState = function()
 {
-	return this._json.Hint;
+	return this._json.STATE;
 };
 
-Record.prototype.getExclamation = function()
+Record.prototype.getZip = function()
 {
-	return this._json.Exclamation;
-};
-
-Record.prototype.getImageURL = function()
-{
-	return this._json["Image-URL"];
+	return this._json.ZIP;
 };
 
 Record.prototype.getLatLng = function()
 {
-	return L.latLng(this._json.Lat, this._json.Long);
+	return L.latLng(this._json.LATITUDE, this._json.LONGITUDE);
 };
