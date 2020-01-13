@@ -11,6 +11,7 @@
 	var _map;
 	var _queryManager;
 	var _layerStarbucks;
+	var _layerDollarGenerals;
 	
 	var BNDS_LOWER48 = [[24.743, -124.784], [49.345, -66.951]];
 
@@ -57,6 +58,10 @@
 			.addTo(_map)
 			.on("click", onMarkerClick);
 
+		_layerDollarGenerals = L.featureGroup()
+			.addTo(_map)
+			.on("click", onMarkerClick);
+
 		// one time check to see if touch is being used
 
 		$(document).one(
@@ -70,25 +75,11 @@
 			function(results){
 				console.log("Starbucks: ", results.length);
 				_layerStarbucks.clearLayers();
-				$.each(
-					results, 
-					function(index, record) {
-	
-						L.circleMarker(
-							record.getLatLng(), 
-							{
-								radius: 7,
-								color: "white",
-								fillColor: "green",
-								fillOpacity: 1
-							}
-						)
-							.bindPopup(record.getName(), {closeButton: false})
-							.bindTooltip(record.getName())
-							.addTo(_layerStarbucks);
-	
-					}
-				);	
+				loadFeatureGroup(
+					_layerStarbucks, 
+					results, 						
+					{radius: 7, color: "white", fillColor: "green", fillOpacity: 1}
+				);
 				_map.flyToBounds(_layerStarbucks.getBounds());			
 			}
 		);
@@ -98,12 +89,34 @@
 		);
 		_queryManager.getDollarGenerals(
 			STATE,
-			function(results){console.log("Dollar Generals ", results.length);}
+			function(results){
+				console.log("Dollar Generals ", results.length);
+				_layerDollarGenerals.clearLayers();
+				loadFeatureGroup(
+					_layerDollarGenerals, 
+					results, 
+					{radius: 7, color: "black", fillColor: "yellow", fillOpacity: 1}
+				);
+			}
 		);
 		_queryManager.getWholeFoods(
 			STATE,
 			function(results){console.log("Whole Foods ", results.length);}
 		);
+		
+		function loadFeatureGroup(featureGroup, records, options)
+		{
+			$.each(
+				records, 
+				function(index, record) {
+					L.circleMarker(record.getLatLng(), options)
+						.bindPopup(record.getName(), {closeButton: false})
+						.bindTooltip(record.getName())
+						.addTo(_layerStarbucks);
+
+				}
+			);	
+		}
 
 	});
 
