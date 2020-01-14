@@ -35,7 +35,8 @@
 				worldCopyJump: true
 			}
 		)
-			.addLayer(L.esri.basemapLayer("NationalGeographic"))			
+			.addLayer(L.esri.basemapLayer("Imagery"))			
+			.addLayer(L.esri.basemapLayer("ImageryLabels"))
 			.addControl(L.control.attribution({position: 'bottomleft'}))
 			.on("moveend", onExtentChange)
 			.fitBounds(BNDS_LOWER48);
@@ -80,7 +81,8 @@
 					results, 						
 					{radius: 7, color: "white", fillColor: "green", fillOpacity: 1}
 				);
-				_map.flyToBounds(_fg$Starbucks.getBounds());			
+				_fg$Starbucks.bringToFront();				
+				_map.fitBounds(_fg$Starbucks.getBounds());			
 			}
 		);
 		_queryManager.getWalmarts(
@@ -97,6 +99,7 @@
 					results, 
 					{radius: 7, color: "black", fillColor: "yellow", fillOpacity: 1}
 				);
+				_fg$DollarGenerals.bringToBack();
 			}
 		);
 		_queryManager.getWholeFoods(
