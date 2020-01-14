@@ -69,11 +69,13 @@
 			function(){$("html body").addClass(GLOBAL_CLASS_USETOUCH);}
 		);
 		
+		$("#info").append($("<h2>").html(STATE));
+		
 		_queryManager = new QueryManager(SERVICE_URL);
 		_queryManager.getStarbucks(
 			STATE, 
 			function(results){
-				console.log("Starbucks: ", results.length);
+				$("#info").append($("<h4>").html("Starbucks: "+results.length));
 				_fg$Starbucks.clearLayers();
 				loadFeatureGroup(
 					_fg$Starbucks, 
@@ -87,7 +89,7 @@
 		_queryManager.getWalmarts(
 			STATE,
 			function(results){
-				console.log("Walmarts ", results.length);
+				$("#info").append($("<h4>").html("Walmarts: "+results.length));
 				_fg$Walmarts.clearLayers();
 				loadFeatureGroup(
 					_fg$Walmarts,
@@ -100,7 +102,7 @@
 		_queryManager.getDollarGenerals(
 			STATE,
 			function(results){
-				console.log("Dollar Generals ", results.length);
+				$("#info").append($("<h4>").html("Dollar Generals: "+results.length));
 				_fg$DollarGenerals.clearLayers();
 				loadFeatureGroup(
 					_fg$DollarGenerals, 
@@ -113,7 +115,7 @@
 		_queryManager.getWholeFoods(
 			STATE,
 			function(results){
-				console.log("Whole Foods ", results.length);
+				$("#info").append($("<h4>").html("Whole Foods: "+results.length));
 				_fg$WholeFoods.clearLayers();
 				loadFeatureGroup(
 					_fg$WholeFoods, 
@@ -173,9 +175,9 @@
 							$(window).width() - $("#blurb").position().left : 
 							0 :
 						0;
-						*/
+		*/
 		var top = 0;
-		var right = 0;
+		var right = $(window).width() - $("#info").position().left;
 		var bottom = 0;
 		var left = 0;
 		return {paddingTopLeft: [left,top], paddingBottomRight: [right,bottom]};
