@@ -28,20 +28,20 @@
 			$(".banner").hide();
 		}
 				
-		_map = new L.Map(
+		_map = new L.PaddingAwareMap(
 			"map", 
 			{
 				zoomControl: !L.Browser.mobile, 
 				attributionControl: false, 
 				maxZoom: 16, minZoom: 2, 
 				worldCopyJump: true
-			}
-		)
+			},
+			getExtentPadding			
+		)			
 			.addLayer(L.esri.basemapLayer("Imagery"))			
 			.addLayer(L.esri.basemapLayer("ImageryLabels"))
 			.addControl(L.control.attribution({position: 'bottomleft'}))
-			.on("moveend", onExtentChange)
-			.fitBounds(BNDS_LOWER48);
+			.on("moveend", onExtentChange);
 
 		if (!L.Browser.mobile) {
 			L.easyButton({
@@ -56,7 +56,7 @@
 				]
 			}).addTo(_map);			
 		}
-		
+
 		_fg$DollarGenerals = L.featureGroup().addTo(_map).on("click", onMarkerClick);
 		_fg$Starbucks = L.featureGroup().addTo(_map).on("click", onMarkerClick);
 		_fg$Walmarts = L.featureGroup().addTo(_map).on("click", onMarkerClick);
@@ -160,6 +160,26 @@
 	/***************************************************************************
 	******************************** FUNCTIONS *********************************
 	***************************************************************************/
+	
+	function getExtentPadding()
+	{
+		/*
+		var landscape = ($(window).width() / $(window).height()) >= 1;
+		var top = landscape ? 
+					0 : 
+					!$("#blurb").hasClass("hidden") ? $("#blurb").outerHeight() : 0;
+		var right = landscape ? 
+						!$("#blurb").hasClass("hidden") ? 
+							$(window).width() - $("#blurb").position().left : 
+							0 :
+						0;
+						*/
+		var top = 0;
+		var right = 0;
+		var bottom = 0;
+		var left = 0;
+		return {paddingTopLeft: [left,top], paddingBottomRight: [right,bottom]};
+	}	
 	
 	function inIframe () {
 		try {
