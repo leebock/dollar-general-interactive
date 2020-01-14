@@ -13,6 +13,7 @@
 	var _fg$Starbucks;
 	var _fg$DollarGenerals;
 	var _fg$Walmarts;
+	var _fg$WholeFoods;
 	
 	var BNDS_LOWER48 = [[24.743, -124.784], [49.345, -66.951]];
 
@@ -59,6 +60,7 @@
 		_fg$DollarGenerals = L.featureGroup().addTo(_map).on("click", onMarkerClick);
 		_fg$Starbucks = L.featureGroup().addTo(_map).on("click", onMarkerClick);
 		_fg$Walmarts = L.featureGroup().addTo(_map).on("click", onMarkerClick);
+		_fg$WholeFoods = L.featureGroup().addTo(_map).on("click", onMarkerClick);
 
 		// one time check to see if touch is being used
 
@@ -110,7 +112,16 @@
 		);
 		_queryManager.getWholeFoods(
 			STATE,
-			function(results){console.log("Whole Foods ", results.length);}
+			function(results){
+				console.log("Whole Foods ", results.length);
+				_fg$WholeFoods.clearLayers();
+				loadFeatureGroup(
+					_fg$WholeFoods, 
+					results, 
+					{radius: 9, color: "black", fillColor: "red", fillOpacity: 1}
+				);
+				_fg$WholeFoods.bringToFront();
+			}
 		);
 		
 		function loadFeatureGroup(featureGroup, records, options)
