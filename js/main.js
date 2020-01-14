@@ -12,6 +12,7 @@
 	var _queryManager;
 	var _fg$Starbucks;
 	var _fg$DollarGenerals;
+	var _fg$Walmarts;
 	
 	var BNDS_LOWER48 = [[24.743, -124.784], [49.345, -66.951]];
 
@@ -55,13 +56,9 @@
 			}).addTo(_map);			
 		}
 		
-		_fg$Starbucks = L.featureGroup()
-			.addTo(_map)
-			.on("click", onMarkerClick);
-
-		_fg$DollarGenerals = L.featureGroup()
-			.addTo(_map)
-			.on("click", onMarkerClick);
+		_fg$DollarGenerals = L.featureGroup().addTo(_map).on("click", onMarkerClick);
+		_fg$Starbucks = L.featureGroup().addTo(_map).on("click", onMarkerClick);
+		_fg$Walmarts = L.featureGroup().addTo(_map).on("click", onMarkerClick);
 
 		// one time check to see if touch is being used
 
@@ -87,7 +84,16 @@
 		);
 		_queryManager.getWalmarts(
 			STATE,
-			function(results){console.log("Walmarts ", results.length);}
+			function(results){
+				console.log("Walmarts ", results.length);
+				_fg$Walmarts.clearLayers();
+				loadFeatureGroup(
+					_fg$Walmarts,
+					results,
+					{radius: 8, color: "white", fillColor: "navy", fillOpacity: 1}
+				);
+				_fg$Walmarts.bringToFront();
+			}
 		);
 		_queryManager.getDollarGenerals(
 			STATE,
