@@ -6,7 +6,6 @@
 
 	var GLOBAL_CLASS_USETOUCH = "touch";
 	var SERVICE_URL = "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/merged_retail/FeatureServer/0";
-	var STATE = "CA";
 	
 	var _map;
 	var _queryManager;
@@ -21,9 +20,6 @@
 
 	$(document).ready(function() {
 		
-		STATE = parseArgs().state || STATE;
-		STATE = STATE.toUpperCase();
-
 		if (!inIframe()) {
 			new SocialButtonBar();
 		} else {
@@ -77,7 +73,47 @@
 	        "resources/states.json", 
 	        function(data) {
 				_states = $.map(data, function(value){return new State(value);});
+				_states = $.grep(
+					_states, 
+					function(value) {
+						return ["GU", "MP", "AS", "VI"].indexOf(value.getAbbreviation()) === -1;
+					}
+				);
+				$.each(
+					_states, 
+					function(index, value) {
+						$("<option>")
+							.attr("value", value.getAbbreviation())
+							.text(value.getName())
+							.appendTo($("#info select"));
+					}
+				);
+
+				var STATE = parseArgs().state;
+
+				if (
+					$.grep(
+						_states, 
+						function(value) {
+							return value.getAbbreviation().toLowerCase() === STATE;
+						}
+					).length
+				) {
+					STATE = STATE.toUpperCase();
+				} else {
+					STATE = "VA";
+				}
+				
+				$("#info select").val(STATE);
+				
+				$("#info select").change(
+					function() {
+						process();
+					}
+				);
+				
 				process();
+				
 	        }
 	    );				
 				
@@ -107,6 +143,10 @@
 		
 	function process()
 	{
+
+		var STATE = $("#info select").val();
+		
+		$("#info ul").empty();
 		
 		var state = $.grep(
 			_states, 
@@ -117,12 +157,10 @@
 		
 		_map.fitBounds(state.getBounds());			
 		
-		$("#info").append($("<h2>").html(state.getName()));
-
 		_queryManager.getStarbucks(
 			STATE, 
 			function(results){
-				$("#info").append($("<h4>").html("Starbucks: "+results.length));
+				$("#info ul").append($("<li>").html("Starbucks: "+results.length));
 				_fg$Starbucks.clearLayers();
 				loadFeatureGroup(
 					_fg$Starbucks, 
@@ -136,7 +174,7 @@
 		_queryManager.getWalmarts(
 			STATE,
 			function(results){
-				$("#info").append($("<h4>").html("Walmarts: "+results.length));
+				$("#info ul").append($("<li>").html("Walmarts: "+results.length));
 				_fg$Walmarts.clearLayers();
 				loadFeatureGroup(
 					_fg$Walmarts,
@@ -150,7 +188,7 @@
 		_queryManager.getDollarGenerals(
 			STATE,
 			function(results){
-				$("#info").append($("<h4>").html("Dollar Generals: "+results.length));
+				$("#info ul").append($("<li>").html("Dollar Generals: "+results.length));
 				_fg$DollarGenerals.clearLayers();
 				loadFeatureGroup(
 					_fg$DollarGenerals, 
@@ -164,7 +202,7 @@
 		_queryManager.getWholeFoods(
 			STATE,
 			function(results){
-				$("#info").append($("<h4>").html("Whole Foods: "+results.length));
+				$("#info ul").append($("<li>").html("Whole Foods: "+results.length));
 				_fg$WholeFoods.clearLayers();
 				loadFeatureGroup(
 					_fg$WholeFoods, 
@@ -192,8 +230,8 @@
 		function finish()
 		{
 			_fg$DollarGenerals.bringToBack();
-			_fg$Walmarts.bringToFront();
 			_fg$Starbucks.bringToFront();				
+			_fg$Walmarts.bringToFront();
 			_fg$WholeFoods.bringToFront();
 		}
 		
@@ -217,7 +255,7 @@
 						0;
 		*/
 		var top = 0;
-		var right = $(window).width() - $("#info").position().left;
+		var right = $("#main").width() - $("#info").position().left;
 		var bottom = 0;
 		var left = 0;
 		return {paddingTopLeft: [left,top], paddingBottomRight: [right,bottom]};

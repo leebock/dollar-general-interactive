@@ -111,12 +111,20 @@ a, button {
     padding: 20px;
     padding-top: 10px;
     right: 20px;
-    top: 50%;
-    transform: translate(0, -50%);
+    top: 20px;
     display: flex;
     flex-direction: column;
-    max-width: 400px;
+    width: 300px;
     max-height: calc(100% - 50px);
+  
+    select {
+      font-size: 20px;
+      padding: 5px;
+      background-color: gray;
+      color: white;
+      border: none;
+    }
+      
     /*
     @media (max-aspect-ratio: 1/1) {
       
