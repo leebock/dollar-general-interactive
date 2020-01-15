@@ -150,6 +150,48 @@ a, button {
       }
       li {
         margin-right: 20px;
+        button {
+          background: none;
+          border-style: solid;
+          padding: 10px;
+          border-radius: 10px;
+          border-color: black;
+        }
+        &.whole-foods {
+          order: 4;
+          button {
+            background: red;
+            color: white;            
+          }
+        }
+        &.dollar-general {
+          order: 1;
+          button {
+            background: yellow;
+            color: black;            
+          }
+        }
+        &.starbucks {
+          order: 2;
+          button {
+            background: green;
+            color: white;            
+          }
+        }
+        &.walmart {
+          order: 3;
+          button {
+            background: blue;
+            color: white;
+          }
+        }
+        &.inactive {
+          button {
+            background: none;
+            border-color: gray;
+            color: black;
+          }
+        }
       }
     }
       

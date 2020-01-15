@@ -31,7 +31,7 @@
 			{
 				zoomControl: !L.Browser.mobile, 
 				attributionControl: false, 
-				maxZoom: 16, minZoom: 2, 
+				maxZoom: 17, minZoom: 2, 
 				worldCopyJump: true
 			},
 			getExtentPadding			
@@ -164,7 +164,16 @@
 		_queryManager.getStarbucks(
 			STATE, 
 			function(results){
-				$("#info ul").append($("<li>").html("Starbucks: "+results.length));
+				$("#info ul").append(
+					$("<li>")
+						.addClass("starbucks")
+						.addClass(_map.hasLayer(_fg$Starbucks) ? "" : "inactive")
+						.append(
+							$("<button>")
+								.html("Starbucks: "+results.length)
+								.click(button_click)
+						)
+				);
 				loadFeatureGroup(
 					_fg$Starbucks, 
 					results, 						
@@ -177,7 +186,16 @@
 		_queryManager.getWalmarts(
 			STATE,
 			function(results){
-				$("#info ul").append($("<li>").html("Walmarts: "+results.length));
+				$("#info ul").append(
+					$("<li>")
+						.addClass("walmart")
+						.addClass(_map.hasLayer(_fg$Walmarts) ? "" : "inactive")
+						.append(
+							$("<button>")
+								.html("Walmarts: "+results.length)
+								.click(button_click)
+						)
+				);
 				loadFeatureGroup(
 					_fg$Walmarts,
 					results,
@@ -190,7 +208,16 @@
 		_queryManager.getDollarGenerals(
 			STATE,
 			function(results){
-				$("#info ul").append($("<li>").html("Dollar Generals: "+results.length));
+				$("#info ul").append(
+					$("<li>")
+						.addClass("dollar-general")
+						.addClass(_map.hasLayer(_fg$DollarGenerals) ? "" : "inactive")
+						.append(
+							$("<button>")
+								.html("Dollar Generals: "+results.length)
+								.click(button_click)
+						)
+				);
 				loadFeatureGroup(
 					_fg$DollarGenerals, 
 					results, 
@@ -203,7 +230,16 @@
 		_queryManager.getWholeFoods(
 			STATE,
 			function(results){
-				$("#info ul").append($("<li>").html("Whole Foods: "+results.length));
+				$("#info ul").append(
+					$("<li>")
+						.addClass("whole-foods")
+						.addClass(_map.hasLayer(_fg$WholeFoods) ? "" : "inactive")
+						.append(
+							$("<button>")
+								.html("Whole Foods: "+results.length)
+								.click(button_click)
+						)
+				);
 				loadFeatureGroup(
 					_fg$WholeFoods, 
 					results, 
@@ -212,6 +248,27 @@
 				finish();
 			}
 		);
+		
+		function button_click(event)
+		{
+			$(event.target).parent().toggleClass("inactive");
+			var fg;
+			if ($(event.target).parent().hasClass("starbucks")) {
+				fg = _fg$Starbucks;
+			} else if ($(event.target).parent().hasClass("dollar-general")) {
+				fg = _fg$DollarGenerals;
+			} else if ($(event.target).parent().hasClass("walmart")) {
+				fg = _fg$Walmarts;
+			} else {
+				fg = _fg$WholeFoods;
+			}
+			if ($(event.target).parent().hasClass("inactive")) {
+				_map.removeLayer(fg);
+			} else {
+				_map.addLayer(fg);
+				finish();
+			}
+		}
 		
 		function loadFeatureGroup(featureGroup, records, options)
 		{

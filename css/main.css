@@ -191,5 +191,45 @@ a, button {
 #main #info ul li {
   margin-right: 20px;
 }
+#main #info ul li button {
+  background: none;
+  border-style: solid;
+  padding: 10px;
+  border-radius: 10px;
+  border-color: black;
+}
+#main #info ul li.whole-foods {
+  order: 4;
+}
+#main #info ul li.whole-foods button {
+  background: red;
+  color: white;
+}
+#main #info ul li.dollar-general {
+  order: 1;
+}
+#main #info ul li.dollar-general button {
+  background: yellow;
+  color: black;
+}
+#main #info ul li.starbucks {
+  order: 2;
+}
+#main #info ul li.starbucks button {
+  background: green;
+  color: white;
+}
+#main #info ul li.walmart {
+  order: 3;
+}
+#main #info ul li.walmart button {
+  background: blue;
+  color: white;
+}
+#main #info ul li.inactive button {
+  background: none;
+  border-color: gray;
+  color: black;
+}
 
 /*# sourceMappingURL=main.css.map */
