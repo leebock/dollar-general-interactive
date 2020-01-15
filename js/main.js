@@ -76,7 +76,7 @@
 				_states = $.grep(
 					_states, 
 					function(value) {
-						return ["GU", "MP", "AS", "VI"].indexOf(value.getAbbreviation()) === -1;
+						return ["GU", "MP", "AS", "VI", "PR"].indexOf(value.getAbbreviation()) === -1;
 					}
 				);
 				$.each(
@@ -147,6 +147,10 @@
 		var STATE = $("#info select").val();
 		
 		$("#info ul").empty();
+		_fg$Starbucks.clearLayers();
+		_fg$Walmarts.clearLayers();
+		_fg$DollarGenerals.clearLayers();
+		_fg$WholeFoods.clearLayers();
 		
 		var state = $.grep(
 			_states, 
@@ -161,7 +165,6 @@
 			STATE, 
 			function(results){
 				$("#info ul").append($("<li>").html("Starbucks: "+results.length));
-				_fg$Starbucks.clearLayers();
 				loadFeatureGroup(
 					_fg$Starbucks, 
 					results, 						
@@ -175,7 +178,6 @@
 			STATE,
 			function(results){
 				$("#info ul").append($("<li>").html("Walmarts: "+results.length));
-				_fg$Walmarts.clearLayers();
 				loadFeatureGroup(
 					_fg$Walmarts,
 					results,
@@ -189,7 +191,6 @@
 			STATE,
 			function(results){
 				$("#info ul").append($("<li>").html("Dollar Generals: "+results.length));
-				_fg$DollarGenerals.clearLayers();
 				loadFeatureGroup(
 					_fg$DollarGenerals, 
 					results, 
@@ -203,7 +204,6 @@
 			STATE,
 			function(results){
 				$("#info ul").append($("<li>").html("Whole Foods: "+results.length));
-				_fg$WholeFoods.clearLayers();
 				loadFeatureGroup(
 					_fg$WholeFoods, 
 					results, 
@@ -254,8 +254,8 @@
 							0 :
 						0;
 		*/
-		var top = 0;
-		var right = $("#main").width() - $("#info").position().left;
+		var top = $("#info").position().top + $("#info").outerHeight();
+		var right = 0;
 		var bottom = 0;
 		var left = 0;
 		return {paddingTopLeft: [left,top], paddingBottomRight: [right,bottom]};
