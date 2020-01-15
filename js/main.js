@@ -10,6 +10,8 @@
 	
 	var _map;
 	var _queryManager;
+	var _states;
+	
 	var _fg$Starbucks;
 	var _fg$DollarGenerals;
 	var _fg$Walmarts;
@@ -68,90 +70,17 @@
 			"touchstart", 
 			function(){$("html body").addClass(GLOBAL_CLASS_USETOUCH);}
 		);
+
+		_queryManager = new QueryManager(SERVICE_URL);
 		
 		$.getJSON(
 	        "resources/states.json", 
 	        function(data) {
-				var state = $.grep(
-					data, 
-					function(value) {
-						return value.STUSPS === STATE;
-					}
-				).shift(); 
-				_map.fitBounds([[state.ymin, state.xmin],[state.ymax, state.xmax]]);			
-				$("#info").append($("<h2>").html(state.NAME));
+				_states = $.map(data, function(value){return new State(value);});
+				process();
 	        }
 	    );				
-		
-		
-		
-		_queryManager = new QueryManager(SERVICE_URL);
-		_queryManager.getStarbucks(
-			STATE, 
-			function(results){
-				$("#info").append($("<h4>").html("Starbucks: "+results.length));
-				_fg$Starbucks.clearLayers();
-				loadFeatureGroup(
-					_fg$Starbucks, 
-					results, 						
-					{radius: 7, color: "white", fillColor: "green", fillOpacity: 1}
-				);
-				_fg$Starbucks.bringToFront();				
-			}
-		);
-		_queryManager.getWalmarts(
-			STATE,
-			function(results){
-				$("#info").append($("<h4>").html("Walmarts: "+results.length));
-				_fg$Walmarts.clearLayers();
-				loadFeatureGroup(
-					_fg$Walmarts,
-					results,
-					{radius: 8, color: "white", fillColor: "navy", fillOpacity: 1}
-				);
-				_fg$Walmarts.bringToFront();
-			}
-		);
-		_queryManager.getDollarGenerals(
-			STATE,
-			function(results){
-				$("#info").append($("<h4>").html("Dollar Generals: "+results.length));
-				_fg$DollarGenerals.clearLayers();
-				loadFeatureGroup(
-					_fg$DollarGenerals, 
-					results, 
-					{radius: 7, color: "black", fillColor: "yellow", fillOpacity: 1}
-				);
-				_fg$DollarGenerals.bringToBack();
-			}
-		);
-		_queryManager.getWholeFoods(
-			STATE,
-			function(results){
-				$("#info").append($("<h4>").html("Whole Foods: "+results.length));
-				_fg$WholeFoods.clearLayers();
-				loadFeatureGroup(
-					_fg$WholeFoods, 
-					results, 
-					{radius: 9, color: "black", fillColor: "red", fillOpacity: 1}
-				);
-				_fg$WholeFoods.bringToFront();
-			}
-		);
-		
-		function loadFeatureGroup(featureGroup, records, options)
-		{
-			$.each(
-				records, 
-				function(index, record) {
-					L.circleMarker(record.getLatLng(), options)
-						.bindPopup(record.getName(), {closeButton: false})
-						.bindTooltip(record.getName())
-						.addTo(featureGroup);
-
-				}
-			);	
-		}
+				
 
 	});
 
@@ -170,6 +99,104 @@
 
 	function onExtentChange()
 	{
+	}
+
+	/***************************************************************************
+	**************************** MASTER FUNCTION *******************************
+	***************************************************************************/
+		
+	function process()
+	{
+		
+		var state = $.grep(
+			_states, 
+			function(value) {
+				return value.getAbbreviation() === STATE;
+			}
+		).shift(); 
+		
+		_map.fitBounds(state.getBounds());			
+		
+		$("#info").append($("<h2>").html(state.getName()));
+
+		_queryManager.getStarbucks(
+			STATE, 
+			function(results){
+				$("#info").append($("<h4>").html("Starbucks: "+results.length));
+				_fg$Starbucks.clearLayers();
+				loadFeatureGroup(
+					_fg$Starbucks, 
+					results, 						
+					{radius: 7, color: "white", fillColor: "green", fillOpacity: 1}
+				);
+				finish();
+			}
+		);
+		
+		_queryManager.getWalmarts(
+			STATE,
+			function(results){
+				$("#info").append($("<h4>").html("Walmarts: "+results.length));
+				_fg$Walmarts.clearLayers();
+				loadFeatureGroup(
+					_fg$Walmarts,
+					results,
+					{radius: 8, color: "white", fillColor: "navy", fillOpacity: 1}
+				);
+				finish();
+			}
+		);
+		
+		_queryManager.getDollarGenerals(
+			STATE,
+			function(results){
+				$("#info").append($("<h4>").html("Dollar Generals: "+results.length));
+				_fg$DollarGenerals.clearLayers();
+				loadFeatureGroup(
+					_fg$DollarGenerals, 
+					results, 
+					{radius: 7, color: "black", fillColor: "yellow", fillOpacity: 1}
+				);
+				finish();
+			}
+		);
+		
+		_queryManager.getWholeFoods(
+			STATE,
+			function(results){
+				$("#info").append($("<h4>").html("Whole Foods: "+results.length));
+				_fg$WholeFoods.clearLayers();
+				loadFeatureGroup(
+					_fg$WholeFoods, 
+					results, 
+					{radius: 9, color: "black", fillColor: "red", fillOpacity: 1}
+				);
+				finish();
+			}
+		);
+		
+		function loadFeatureGroup(featureGroup, records, options)
+		{
+			$.each(
+				records, 
+				function(index, record) {
+					L.circleMarker(record.getLatLng(), options)
+						.bindPopup(record.getName(), {closeButton: false})
+						.bindTooltip(record.getName())
+						.addTo(featureGroup);
+
+				}
+			);	
+		}
+		
+		function finish()
+		{
+			_fg$DollarGenerals.bringToBack();
+			_fg$Walmarts.bringToFront();
+			_fg$Starbucks.bringToFront();				
+			_fg$WholeFoods.bringToFront();
+		}
+		
 	}
 
 	/***************************************************************************
