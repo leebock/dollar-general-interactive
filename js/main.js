@@ -69,7 +69,21 @@
 			function(){$("html body").addClass(GLOBAL_CLASS_USETOUCH);}
 		);
 		
-		$("#info").append($("<h2>").html(STATE));
+		$.getJSON(
+	        "resources/states.json", 
+	        function(data) {
+				var state = $.grep(
+					data, 
+					function(value) {
+						return value.STUSPS === STATE;
+					}
+				).shift(); 
+				_map.fitBounds([[state.ymin, state.xmin],[state.ymax, state.xmax]]);			
+				$("#info").append($("<h2>").html(state.NAME));
+	        }
+	    );				
+		
+		
 		
 		_queryManager = new QueryManager(SERVICE_URL);
 		_queryManager.getStarbucks(
@@ -83,7 +97,6 @@
 					{radius: 7, color: "white", fillColor: "green", fillOpacity: 1}
 				);
 				_fg$Starbucks.bringToFront();				
-				_map.fitBounds(_fg$Starbucks.getBounds());			
 			}
 		);
 		_queryManager.getWalmarts(
