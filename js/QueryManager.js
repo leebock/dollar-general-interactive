@@ -22,8 +22,10 @@ QueryManager.prototype._getCount = function(where, callBack)
     
 };
 
-QueryManager.prototype._getRecords = function(where, callBack)
+QueryManager.prototype.getRecords = function(state, callBack)
 {
+	
+	var where = "STATE = '"+state+"'";
 
 	var self = this;	
 	var results = [];
@@ -62,36 +64,4 @@ QueryManager.prototype._getRecords = function(where, callBack)
 		}
 	);
         
-};
-
-QueryManager.prototype.getStarbucks = function(state, callBack)
-{
-	this._getRecords(
-		"STATE = '"+state+"' AND CONAME like '%starbucks%'",
-		callBack
-	);
-};
-
-QueryManager.prototype.getWalmarts = function(state, callBack)
-{
-	this._getRecords(
-		"STATE = '"+state+"' AND CONAME like '%walmart%'",
-		callBack
-	);
-};
-
-QueryManager.prototype.getDollarGenerals = function(state, callBack)
-{
-	this._getRecords(
-		"STATE = '"+state+"' AND CONAME like '%dollar%'",
-		callBack
-	);
-};
-
-QueryManager.prototype.getWholeFoods = function(state, callBack)
-{
-	this._getRecords(
-		"STATE = '"+state+"' AND CONAME like '%whole%'",
-		callBack
-	);
 };

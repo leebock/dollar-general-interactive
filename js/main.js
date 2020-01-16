@@ -5,10 +5,13 @@
 	//var WIDTH_THRESHOLD = 768;
 
 	var GLOBAL_CLASS_USETOUCH = "touch";
-	var SERVICE_URL = "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/merged_retail/FeatureServer/0";
+	
+	var SERVICE_URL_STARBUCKS = "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/infogroup012020_starbucks/FeatureServer/0";
+	var SERVICE_URL_WALMART = "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/infogroup012020_walmart/FeatureServer/0";
+	var SERVICE_URL_DOLLARGENERAL = "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/infogroup012020_dollargeneral/FeatureServer/0";
+	var SERVICE_URL_WHOLEFOODS = "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/infogroup012020_wholefoods/FeatureServer/0";
 	
 	var _map;
-	var _queryManager;
 	var _states;
 	
 	var _fg$Starbucks;
@@ -67,8 +70,6 @@
 			function(){$("html body").addClass(GLOBAL_CLASS_USETOUCH);}
 		);
 
-		_queryManager = new QueryManager(SERVICE_URL);
-		
 		$.getJSON(
 	        "resources/states.json", 
 	        function(data) {
@@ -161,7 +162,7 @@
 		
 		_map.fitBounds(state.getBounds());			
 		
-		_queryManager.getStarbucks(
+		new QueryManager(SERVICE_URL_STARBUCKS).getRecords(
 			STATE, 
 			function(results){
 				$("#info ul").append(
@@ -183,7 +184,7 @@
 			}
 		);
 		
-		_queryManager.getWalmarts(
+		new QueryManager(SERVICE_URL_WALMART).getRecords(
 			STATE,
 			function(results){
 				$("#info ul").append(
@@ -205,7 +206,7 @@
 			}
 		);
 		
-		_queryManager.getDollarGenerals(
+		new QueryManager(SERVICE_URL_DOLLARGENERAL).getRecords(
 			STATE,
 			function(results){
 				$("#info ul").append(
@@ -227,7 +228,7 @@
 			}
 		);
 		
-		_queryManager.getWholeFoods(
+		new QueryManager(SERVICE_URL_WHOLEFOODS).getRecords(
 			STATE,
 			function(results){
 				$("#info ul").append(
