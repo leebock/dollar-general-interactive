@@ -60,8 +60,8 @@
 
 		_fg$DollarGenerals = L.featureGroup().addTo(_map).on("click", onMarkerClick);
 		_fg$Starbucks = L.featureGroup().addTo(_map).on("click", onMarkerClick);
-		_fg$Walmarts = L.featureGroup().addTo(_map).on("click", onMarkerClick);
-		_fg$WholeFoods = L.featureGroup().addTo(_map).on("click", onMarkerClick);
+		_fg$Walmarts = L.featureGroup().on("click", onMarkerClick);
+		_fg$WholeFoods = L.featureGroup().on("click", onMarkerClick);
 
 		// one time check to see if touch is being used
 
