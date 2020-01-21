@@ -34,7 +34,7 @@
 			{
 				zoomControl: !L.Browser.mobile, 
 				attributionControl: false, 
-				maxZoom: 17, minZoom: 2, 
+				maxZoom: 19, minZoom: 2, 
 				worldCopyJump: true
 			},
 			getExtentPadding			
@@ -159,8 +159,28 @@
 				return value.getAbbreviation() === STATE;
 			}
 		).shift(); 
+
+		// reset zoom / pan limits to defaults
+		_map.setMaxBounds([[-90, -180],[90, 180]]);
+		_map.setMinZoom(1);
 		
-		_map.fitBounds(state.getBounds());			
+		// frame the state
+		
+		_map.fitBounds(state.getBounds());	
+		
+		/* limit zoom / pan 
+		  using a pretty wide margin because otherwise it will interfere with the 
+		  padding compensation in PaddingAwareMap.  probably ought to just override
+		  the setMaxBounds method in PaddingAwareMap to account for padding.
+		  */
+				
+		setTimeout(
+			function() {
+				_map.setMaxBounds(L.latLngBounds(state.getBounds()).pad(1));
+				_map.setMinZoom(_map.getZoom()-1);
+			},
+			1000			
+		);
 		
 		new QueryManager(SERVICE_URL_STARBUCKS).getRecords(
 			STATE, 
