@@ -62,6 +62,27 @@
 			}).addTo(_map);			
 		}
 
+		_map.createPane("test");
+		_map.getPane('test').style.zIndex = 399;
+		_map.getPane('test').style.pointerEvents = 'none';
+		_map.getPane('test').style.display = 'none';
+		
+		_fl$ElectionResults = L.esri.featureLayer(
+			{
+				url: "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/2016_Presidential_Results_by_County/FeatureServer/0",
+				where: "1 <> 1",
+				style: function(feature) {
+					return {
+						color: "white", 
+						fillColor: feature.properties.Winner === "Clinton" ? "blue" : "red",
+						fillOpacity: 0.8
+					};
+				},
+				pane: "test"
+			}
+		).addTo(_map);
+
+
 		_fg$DollarGenerals = L.featureGroup().addTo(_map).on("click", onMarkerClick);
 		_fg$Starbucks = L.featureGroup().addTo(_map).on("click", onMarkerClick);
 		_fg$McDonalds = L.featureGroup().addTo(_map).on("click", onMarkerClick);
@@ -109,28 +130,6 @@
 				} else {
 					STATE = "VA";
 				}
-
-
-				_map.createPane("test");
-				_map.getPane('test').style.zIndex = 399;
-				_map.getPane('test').style.pointerEvents = 'none';
-				_map.getPane('test').style.display = 'none';
-				
-				_fl$ElectionResults = L.esri.featureLayer(
-					{
-						url: "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/2016_Presidential_Results_by_County/FeatureServer/0",
-						where: "1 <> 1",
-						style: function(feature) {
-							return {
-								color: "white", 
-								fillColor: feature.properties.Winner === "Clinton" ? "blue" : "red",
-								fillOpacity: 0.8
-							};
-						},
-						pane: "test"
-					}
-				).addTo(_map);
-				
 				
 				$("#info select").val(STATE);
 				
