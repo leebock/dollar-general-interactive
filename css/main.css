@@ -199,10 +199,10 @@ a, button {
   border-color: black;
 }
 #main #info ul li.whole-foods {
-  order: 4;
+  order: 5;
 }
 #main #info ul li.whole-foods button {
-  background: red;
+  background: purple;
   color: white;
 }
 #main #info ul li.dollar-general {
@@ -220,11 +220,18 @@ a, button {
   color: white;
 }
 #main #info ul li.walmart {
-  order: 3;
+  order: 4;
 }
 #main #info ul li.walmart button {
   background: blue;
   color: white;
+}
+#main #info ul li.mcdonalds {
+  order: 3;
+}
+#main #info ul li.mcdonalds button {
+  background: red;
+  color: yellow;
 }
 #main #info ul li.inactive button {
   background: none;

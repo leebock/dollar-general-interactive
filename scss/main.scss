@@ -158,9 +158,9 @@ a, button {
           border-color: black;
         }
         &.whole-foods {
-          order: 4;
+          order: 5;
           button {
-            background: red;
+            background: purple;
             color: white;            
           }
         }
@@ -179,10 +179,17 @@ a, button {
           }
         }
         &.walmart {
-          order: 3;
+          order: 4;
           button {
             background: blue;
             color: white;
+          }
+        }
+        &.mcdonalds {
+          order: 3;
+          button {
+            background: red;
+            color: yellow;
           }
         }
         &.inactive {

@@ -10,6 +10,7 @@
 	var SERVICE_URL_WALMART = "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/infogroup012020_walmart/FeatureServer/0";
 	var SERVICE_URL_DOLLARGENERAL = "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/infogroup012020_dollargeneral/FeatureServer/0";
 	var SERVICE_URL_WHOLEFOODS = "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/infogroup012020_wholefoods/FeatureServer/0";
+	var SERVICE_URL_MCDONALDS = "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/infogroup012020_mcdonalds/FeatureServer/0";
 	
 	var _map;
 	var _states;
@@ -18,6 +19,7 @@
 	var _fg$DollarGenerals;
 	var _fg$Walmarts;
 	var _fg$WholeFoods;
+	var _fg$McDonalds;
 	
 	var BNDS_LOWER48 = [[24.743, -124.784], [49.345, -66.951]];
 
@@ -60,6 +62,7 @@
 
 		_fg$DollarGenerals = L.featureGroup().addTo(_map).on("click", onMarkerClick);
 		_fg$Starbucks = L.featureGroup().addTo(_map).on("click", onMarkerClick);
+		_fg$McDonalds = L.featureGroup().addTo(_map).on("click", onMarkerClick);
 		_fg$Walmarts = L.featureGroup().on("click", onMarkerClick);
 		_fg$WholeFoods = L.featureGroup().on("click", onMarkerClick);
 
@@ -152,6 +155,7 @@
 		_fg$Walmarts.clearLayers();
 		_fg$DollarGenerals.clearLayers();
 		_fg$WholeFoods.clearLayers();
+		_fg$McDonalds.clearLayers();
 		
 		var state = $.grep(
 			_states, 
@@ -199,6 +203,28 @@
 					_fg$Starbucks, 
 					results, 						
 					{radius: 7, color: "white", fillColor: "green", fillOpacity: 1}
+				);
+				finish();
+			}
+		);
+		
+		new QueryManager(SERVICE_URL_MCDONALDS).getRecords(
+			STATE,
+			function(results) {
+				$("#info ul").append(
+					$("<li>")
+						.addClass("mcdonalds")
+						.addClass(_map.hasLayer(_fg$McDonalds) ? "" : "inactive")
+						.append(
+							$("<button>")
+								.html("McDonalds: "+results.length)
+								.click(button_click)
+						)
+				);
+				loadFeatureGroup(
+					_fg$McDonalds, 
+					results, 						
+					{radius: 7, color: "white", fillColor: "red", fillOpacity: 1}
 				);
 				finish();
 			}
@@ -264,7 +290,7 @@
 				loadFeatureGroup(
 					_fg$WholeFoods, 
 					results, 
-					{radius: 9, color: "black", fillColor: "red", fillOpacity: 1}
+					{radius: 9, color: "black", fillColor: "purple", fillOpacity: 1}
 				);
 				finish();
 			}
@@ -280,6 +306,8 @@
 				fg = _fg$DollarGenerals;
 			} else if ($(event.target).parent().hasClass("walmart")) {
 				fg = _fg$Walmarts;
+			} else if ($(event.target).parent().hasClass("mcdonalds")) {
+				fg = _fg$McDonalds;
 			} else {
 				fg = _fg$WholeFoods;
 			}
@@ -308,6 +336,7 @@
 		function finish()
 		{
 			_fg$DollarGenerals.bringToBack();
+			_fg$McDonalds.bringToFront();
 			_fg$Starbucks.bringToFront();				
 			_fg$Walmarts.bringToFront();
 			_fg$WholeFoods.bringToFront();
