@@ -163,14 +163,19 @@ a, button {
   background-color: gray;
   color: white;
   border: none;
+  max-width: 250px;
+  max-height: 40px;
 }
 @media (max-width: 1023px) {
   #main #info select {
     font-size: 16px;
+    max-width: 175px;
   }
 }
 #main #info ul {
   flex: 1;
+  flex-wrap: wrap;
+  justify-content: center;
   list-style-type: none;
   -webkit-margin-before: 0px;
   -webkit-margin-after: 0px;
