@@ -21,6 +21,8 @@
 	var _fg$WholeFoods;
 	var _fg$McDonalds;
 	
+	var _fl$ElectionResults;
+	
 	var BNDS_LOWER48 = [[24.743, -124.784], [49.345, -66.951]];
 
 	$(document).ready(function() {
@@ -107,6 +109,28 @@
 				} else {
 					STATE = "VA";
 				}
+
+
+				_map.createPane("test");
+				_map.getPane('test').style.zIndex = 399;
+				_map.getPane('test').style.pointerEvents = 'none';
+				_map.getPane('test').style.display = 'none';
+				
+				_fl$ElectionResults = L.esri.featureLayer(
+					{
+						url: "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/2016_Presidential_Results_by_County/FeatureServer/0",
+						where: "1 <> 1",
+						style: function(feature) {
+							return {
+								color: "white", 
+								fillColor: feature.properties.Winner === "Clinton" ? "blue" : "red",
+								fillOpacity: 0.8
+							};
+						},
+						pane: "test"
+					}
+				).addTo(_map);
+				
 				
 				$("#info select").val(STATE);
 				
@@ -180,10 +204,31 @@
 				
 		setTimeout(
 			function() {
-				_map.setMaxBounds(L.latLngBounds(state.getBounds()).pad(1));
+				_map.setMaxBounds(L.latLngBounds(state.getBounds()).pad(1.3));
 				_map.setMinZoom(_map.getZoom()-1);
 			},
 			1000			
+		);
+		
+		_fl$ElectionResults.setWhere(
+			"STATE_FIPS = '"+state.getFipsCode()+"'",
+			function() {
+				$("#info ul").append(
+					$("<li>")
+						.addClass("election")
+						.addClass($(".leaflet-test-pane").css("display") === "none" ? "inactive" : "")
+						.append(
+							$("<button>")
+								.html("2016 Election")
+								.click(
+									function(event) {
+										$(".leaflet-test-pane").toggle();
+										$(event.target).parent().toggleClass("inactive");										
+									}
+								)
+						)
+				);
+			}
 		);
 		
 		new QueryManager(SERVICE_URL_STARBUCKS).getRecords(
@@ -308,9 +353,12 @@
 				fg = _fg$Walmarts;
 			} else if ($(event.target).parent().hasClass("mcdonalds")) {
 				fg = _fg$McDonalds;
-			} else {
+			} else if ($(event.target).parent().hasClass("whole-foods")){
 				fg = _fg$WholeFoods;
+			} else {
+				// nothing
 			}
+			
 			if ($(event.target).parent().hasClass("inactive")) {
 				_map.removeLayer(fg);
 			} else {

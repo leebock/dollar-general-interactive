@@ -233,6 +233,13 @@ a, button {
   background: red;
   color: yellow;
 }
+#main #info ul li.election {
+  order: 6;
+}
+#main #info ul li.election button {
+  background: black;
+  color: white;
+}
 #main #info ul li.inactive button {
   background: none;
   border-color: gray;

@@ -192,6 +192,13 @@ a, button {
             color: yellow;
           }
         }
+        &.election {
+          order: 6;
+          button {
+            background: black;
+            color: white;
+          }
+        }
         &.inactive {
           button {
             background: none;
