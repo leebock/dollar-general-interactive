@@ -132,6 +132,7 @@ a, button {
       @media(max-width: 1023px) {
         font-size: 16px;
         max-width: 175px;
+        align-self: flex-end;
       }
     }
     
@@ -150,12 +151,10 @@ a, button {
       -moz-padding-start: 0px;
       -moz-padding-end: 0px;      
       display: flex;
-      @media(max-width: 1023px) {
-        font-size: 14px;
-      }
       li {
         margin-right: 20px;
         button {
+          font-size: 16px;
           background: none;
           border-style: solid;
           padding: 10px;

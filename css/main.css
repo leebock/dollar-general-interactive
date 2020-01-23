@@ -170,6 +170,7 @@ a, button {
   #main #info select {
     font-size: 16px;
     max-width: 175px;
+    align-self: flex-end;
   }
 }
 #main #info ul {
@@ -188,15 +189,11 @@ a, button {
   -moz-padding-end: 0px;
   display: flex;
 }
-@media (max-width: 1023px) {
-  #main #info ul {
-    font-size: 14px;
-  }
-}
 #main #info ul li {
   margin-right: 20px;
 }
 #main #info ul li button {
+  font-size: 16px;
   background: none;
   border-style: solid;
   padding: 10px;
