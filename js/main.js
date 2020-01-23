@@ -43,7 +43,7 @@
 			},
 			getExtentPadding			
 		)			
-			.addLayer(L.esri.basemapLayer("Imagery"))			
+			.addLayer(L.esri.basemapLayer("ImageryFirefly"))			
 			.addLayer(L.esri.basemapLayer("ImageryLabels"))
 			.addControl(L.control.attribution({position: 'bottomleft'}))
 			.on("moveend", onExtentChange);
@@ -78,9 +78,13 @@
 						fillOpacity: 0.8
 					};
 				},
-				pane: "test"
+				pane: "test",
+				onEachFeature: function(feature, layer) {
+					layer.bindTooltip(feature.properties.NAME+" County");
+				}
 			}
-		).addTo(_map);
+		)
+		.addTo(_map);
 
 
 		_fg$DollarGenerals = L.featureGroup().addTo(_map).on("click", onMarkerClick);
@@ -372,8 +376,15 @@
 				records, 
 				function(index, record) {
 					L.circleMarker(record.getLatLng(), options)
-						.bindPopup(record.getName(), {closeButton: false})
-						.bindTooltip(record.getName())
+						.bindPopup(
+							record.getName()+"<br>"+
+							record.getAddress()+"<br>"+
+							record.getCity()+", "+record.getState(), 
+							{closeButton: false}
+						)
+						.bindTooltip(
+							record.getCity()+", "+record.getState()							
+						)
 						.addTo(featureGroup);
 
 				}
