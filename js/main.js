@@ -190,28 +190,10 @@
 				return value.getAbbreviation() === STATE;
 			}
 		).shift(); 
-
-		// reset zoom / pan limits to defaults
-		_map.setMaxBounds([[-90, -180],[90, 180]]);
-		_map.setMinZoom(1);
 		
 		// frame the state
 		
 		_map.fitBounds(state.getBounds());	
-		
-		/* limit zoom / pan 
-		  using a pretty wide margin because otherwise it will interfere with the 
-		  padding compensation in PaddingAwareMap.  probably ought to just override
-		  the setMaxBounds method in PaddingAwareMap to account for padding.
-		  */
-				
-		setTimeout(
-			function() {
-				_map.setMaxBounds(L.latLngBounds(state.getBounds()).pad(1.3));
-				_map.setMinZoom(_map.getZoom()-1);
-			},
-			1000			
-		);
 		
 		_fl$ElectionResults.setWhere(
 			"STATE_FIPS = '"+state.getFipsCode()+"'",
