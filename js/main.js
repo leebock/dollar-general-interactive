@@ -24,6 +24,8 @@
 	var _fl$ElectionResults;
 	
 	var BNDS_LOWER48 = [[24.743, -124.784], [49.345, -66.951]];
+	
+	var _fullExtent = BNDS_LOWER48;
 
 	$(document).ready(function() {
 		
@@ -54,7 +56,7 @@
 					{
 						icon: "fa fa-home",
 						onClick: function(btn, map){
-							_map.fitBounds(BNDS_LOWER48);
+							_map.fitBounds(_fullExtent);
 						},
 						title: "Full extent"
 					}
@@ -192,8 +194,8 @@
 		).shift(); 
 		
 		// frame the state
-		
-		_map.fitBounds(state.getBounds());	
+		_fullExtent = state.getBounds();
+		_map.fitBounds(_fullExtent);	
 		
 		_fl$ElectionResults.setWhere(
 			"STATE_FIPS = '"+state.getFipsCode()+"'",
