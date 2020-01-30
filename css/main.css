@@ -128,7 +128,7 @@ a, button {
   z-index: 5000;
   background: rgba(255, 255, 255, 0.8);
   padding: 15px;
-  right: 10px;
+  left: 10px;
   bottom: 10px;
   display: flex;
   /*
@@ -151,7 +151,7 @@ a, button {
 @media (max-width: 1023px) {
   #main #info {
     flex-direction: column;
-    right: 0px;
+    left: 0px;
     bottom: 0px;
   }
 }
@@ -164,12 +164,13 @@ a, button {
   border: none;
   max-width: 250px;
   max-height: 40px;
+  margin-right: 20px;
 }
 @media (max-width: 1023px) {
   #main #info select {
     font-size: 16px;
     max-width: 175px;
-    align-self: flex-end;
+    margin-bottom: 10px;
   }
 }
 #main #info ul {
