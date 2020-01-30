@@ -21,7 +21,7 @@
 	var _fg$WholeFoods;
 	var _fg$McDonalds;
 	
-	var _fl$ElectionResults;
+	//var _fl$ElectionResults;
 	
 	var BNDS_LOWER48 = [[24.743, -124.784], [49.345, -66.951]];
 	
@@ -69,6 +69,7 @@
 		_map.getPane('test').style.pointerEvents = 'none';
 		_map.getPane('test').style.display = 'none';
 		
+		/*
 		_fl$ElectionResults = L.esri.featureLayer(
 			{
 				url: "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/2016_Presidential_Results_by_County/FeatureServer/0",
@@ -87,7 +88,7 @@
 			}
 		)
 		.addTo(_map);
-
+		*/
 
 		_fg$DollarGenerals = L.featureGroup().addTo(_map).on("click", onMarkerClick);
 		_fg$Starbucks = L.featureGroup().addTo(_map).on("click", onMarkerClick);
@@ -196,7 +197,7 @@
 		// frame the state
 		_fullExtent = state.getBounds();
 		_map.fitBounds(_fullExtent);	
-		
+		/*
 		_fl$ElectionResults.setWhere(
 			"STATE_FIPS = '"+state.getFipsCode()+"'",
 			function() {
@@ -217,7 +218,7 @@
 				);
 			}
 		);
-		
+		*/
 		new QueryManager(SERVICE_URL_STARBUCKS).getRecords(
 			STATE, 
 			function(results){
