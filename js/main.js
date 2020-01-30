@@ -22,6 +22,7 @@
 	var _fg$McDonalds;
 	
 	//var _fl$ElectionResults;
+	var _fg$States;
 	
 	var BNDS_LOWER48 = [[24.743, -124.784], [49.345, -66.951]];
 	
@@ -64,12 +65,9 @@
 			}).addTo(_map);			
 		}
 
-		/*
-		_map.createPane("test");
-		_map.getPane('test').style.zIndex = 399;
-		_map.getPane('test').style.pointerEvents = 'none';
-		_map.getPane('test').style.display = 'none';
-		*/
+		_map.createPane("mask");
+		_map.getPane("mask").style.zIndex = 300;
+		_map.getPane("mask").style.pointerEvents = "none";
 		
 		L.esri.tiledMapLayer(
 			{url: "http://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer"}
@@ -97,6 +95,11 @@
 		)
 		.addTo(_map);
 		*/
+		
+		_fg$States = L.geoJSON(
+			[],
+			{pane: "mask", style: {fillColor: "gray", fillOpacity: 0.9, stroke: false}}
+		).addTo(_map);
 
 		_fg$DollarGenerals = L.featureGroup().addTo(_map).on("click", onMarkerClick);
 		_fg$Starbucks = L.featureGroup().on("click", onMarkerClick);
@@ -227,6 +230,19 @@
 			}
 		);
 		*/
+
+		_fg$States.clearLayers();
+		L.esri.query({
+			url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_States_Generalized/FeatureServer/0"
+		})
+			.where("STATE_FIPS <> '"+state.getFipsCode()+"'")
+			.run(
+				function(error, featureCollection, response) {
+					_fg$States.addData(featureCollection);
+				}
+			);
+
+		
 		new QueryManager(SERVICE_URL_STARBUCKS).getRecords(
 			STATE, 
 			function(results){
