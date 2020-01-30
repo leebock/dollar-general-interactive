@@ -127,11 +127,10 @@ a, button {
   position: absolute;
   z-index: 5000;
   background: rgba(255, 255, 255, 0.8);
-  padding: 20px;
-  right: 20px;
-  top: 20px;
+  padding: 15px;
+  right: 10px;
+  bottom: 10px;
   display: flex;
-  max-width: calc(100% - 50px);
   /*
   @media (max-aspect-ratio: 1/1) {
 
@@ -153,7 +152,7 @@ a, button {
   #main #info {
     flex-direction: column;
     right: 0px;
-    top: 0px;
+    bottom: 0px;
   }
 }
 #main #info select {

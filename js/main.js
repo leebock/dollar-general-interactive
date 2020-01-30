@@ -47,7 +47,7 @@
 		)			
 			.addLayer(L.esri.basemapLayer("ImageryFirefly"))			
 			.addLayer(L.esri.basemapLayer("ImageryLabels"))
-			.addControl(L.control.attribution({position: 'bottomleft'}))
+			.addControl(L.control.attribution({position: 'topright'}))
 			.on("moveend", onExtentChange);
 
 		if (!L.Browser.mobile) {
@@ -404,9 +404,9 @@
 							0 :
 						0;
 		*/
-		var top = $("#info").position().top + $("#info").outerHeight();
+		var top = 0;
 		var right = 0;
-		var bottom = 0;
+		var bottom = $("#info").outerHeight()+10;
 		var left = 0;
 		return {paddingTopLeft: [left,top], paddingBottomRight: [right,bottom]};
 	}	
