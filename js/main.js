@@ -91,9 +91,9 @@
 		*/
 
 		_fg$DollarGenerals = L.featureGroup().addTo(_map).on("click", onMarkerClick);
-		_fg$Starbucks = L.featureGroup().addTo(_map).on("click", onMarkerClick);
-		_fg$McDonalds = L.featureGroup().addTo(_map).on("click", onMarkerClick);
-		_fg$Walmarts = L.featureGroup().on("click", onMarkerClick);
+		_fg$Starbucks = L.featureGroup().on("click", onMarkerClick);
+		_fg$McDonalds = L.featureGroup().on("click", onMarkerClick);
+		_fg$Walmarts = L.featureGroup().addTo(_map).on("click", onMarkerClick);
 		_fg$WholeFoods = L.featureGroup().on("click", onMarkerClick);
 
 		// one time check to see if touch is being used
@@ -279,7 +279,7 @@
 				loadFeatureGroup(
 					_fg$Walmarts,
 					results,
-					{radius: 8, color: "white", fillColor: "navy", fillOpacity: 1}
+					{radius: 9, color: "white", fillColor: "navy", fillOpacity: 1}
 				);
 				finish();
 			}
@@ -301,7 +301,7 @@
 				loadFeatureGroup(
 					_fg$DollarGenerals, 
 					results, 
-					{radius: 7, color: "black", fillColor: "yellow", fillOpacity: 1}
+					{radius: 6, color: "black", fillColor: "yellow", fillOpacity: 1}
 				);
 				finish();
 			}
@@ -378,10 +378,10 @@
 		
 		function finish()
 		{
-			_fg$DollarGenerals.bringToBack();
 			_fg$McDonalds.bringToFront();
 			_fg$Starbucks.bringToFront();				
 			_fg$Walmarts.bringToFront();
+			_fg$DollarGenerals.bringToFront();
 			_fg$WholeFoods.bringToFront();
 		}
 		
