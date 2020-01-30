@@ -45,7 +45,7 @@
 			},
 			getExtentPadding			
 		)			
-			.addLayer(L.esri.basemapLayer("ImageryFirefly"))			
+			.addLayer(L.esri.basemapLayer("ImageryFirefly"))
 			.addLayer(L.esri.basemapLayer("ImageryLabels"))
 			.addControl(L.control.attribution({position: 'topright'}))
 			.on("moveend", onExtentChange);
@@ -64,10 +64,18 @@
 			}).addTo(_map);			
 		}
 
+		/*
 		_map.createPane("test");
 		_map.getPane('test').style.zIndex = 399;
 		_map.getPane('test').style.pointerEvents = 'none';
 		_map.getPane('test').style.display = 'none';
+		*/
+		
+		L.esri.tiledMapLayer(
+			{url: "http://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer"}
+		)
+		.addTo(_map);			
+
 		
 		/*
 		_fl$ElectionResults = L.esri.featureLayer(
