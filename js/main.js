@@ -46,7 +46,7 @@
 			},
 			getExtentPadding			
 		)			
-			.addLayer(L.esri.basemapLayer("ImageryFirefly"))
+			.addLayer(L.esri.basemapLayer("DarkGray"))
 			.addLayer(L.esri.basemapLayer("ImageryLabels"))
 			.addControl(L.control.attribution({position: 'topright'}))
 			.on("moveend", onExtentChange);
@@ -98,7 +98,7 @@
 		
 		_fg$States = L.geoJSON(
 			[],
-			{pane: "mask", style: {fillColor: "gray", fillOpacity: 0.9, stroke: false}}
+			{pane: "mask", style: {fillColor: "black", fillOpacity: 0.8, stroke: false}}
 		).addTo(_map);
 
 		_fg$DollarGenerals = L.featureGroup().addTo(_map).on("click", onMarkerClick);
