@@ -215,21 +215,21 @@ a, button {
   color: black;
 }
 #main #info ul li.starbucks {
-  order: 2;
+  order: 3;
 }
 #main #info ul li.starbucks button {
   background: green;
   color: white;
 }
 #main #info ul li.walmart {
-  order: 4;
+  order: 2;
 }
 #main #info ul li.walmart button {
   background: blue;
   color: white;
 }
 #main #info ul li.mcdonalds {
-  order: 3;
+  order: 4;
 }
 #main #info ul li.mcdonalds button {
   background: red;

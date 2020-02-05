@@ -69,6 +69,28 @@
 		_map.getPane("mask").style.zIndex = 300;
 		_map.getPane("mask").style.pointerEvents = "none";
 		
+		_map.createPane("wholefoods");
+		_map.getPane("wholefoods").style.zIndex = 623;
+		
+		_map.createPane("dgs");
+		_map.getPane("dgs").style.zIndex = 622;
+		
+		_map.createPane("starbucks");
+		_map.getPane("starbucks").style.zIndex = 621;
+		
+		_map.createPane("mcdonalds");
+		_map.getPane("mcdonalds").style.zIndex = 620;
+		
+		_map.createPane("walmart");
+		_map.getPane("walmart").style.zIndex = 619;
+		
+		setTimeout(
+			function() {
+				$(".leaflet-esri-labels-pane").css("z-index", 640);
+			},
+			2000
+		);
+		
 		L.esri.tiledMapLayer(
 			{url: "http://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer"}
 		)
@@ -259,9 +281,21 @@
 				loadFeatureGroup(
 					_fg$Starbucks, 
 					results, 						
-					{radius: 7, color: "white", fillColor: "green", fillOpacity: 1}
+					function(latLng) {
+						return L.marker(
+							latLng, 
+							{
+								icon: 
+								L.icon({
+									iconUrl: "resources/icon-starbucks.png", 
+									iconSize: [20, 20],
+									iconAnchor: [10, 10]
+								}),
+								pane: "starbucks"
+							}
+						);
+					} 
 				);
-				finish();
 			}
 		);
 		
@@ -281,9 +315,21 @@
 				loadFeatureGroup(
 					_fg$McDonalds, 
 					results, 						
-					{radius: 7, color: "white", fillColor: "red", fillOpacity: 1}
+					function(latLng) {
+						return L.marker(
+							latLng, 
+							{
+								icon: 
+								L.icon({
+									iconUrl: "resources/icon-mcds.png", 
+									iconSize: [22, 22],
+									iconAnchor: [11, 11]
+								}),
+								pane: "mcdonalds"
+							}
+						);
+					} 
 				);
-				finish();
 			}
 		);
 		
@@ -303,9 +349,21 @@
 				loadFeatureGroup(
 					_fg$Walmarts,
 					results,
-					{radius: 9, color: "white", fillColor: "navy", fillOpacity: 1}
+					function(latLng) {
+						return L.marker(
+							latLng, 
+							{
+								icon: 
+								L.icon({
+									iconUrl: "resources/icon-walmart.png", 
+									iconSize: [34, 34],
+									iconAnchor: [17, 17]
+								}),
+								pane: "walmart"
+							}
+						);
+					} 					
 				);
-				finish();
 			}
 		);
 		
@@ -325,9 +383,21 @@
 				loadFeatureGroup(
 					_fg$DollarGenerals, 
 					results, 
-					{radius: 6, color: "black", fillColor: "yellow", fillOpacity: 1}
+					function(latLng) {
+						return L.marker(
+							latLng, 
+							{
+								icon: 
+								L.icon({
+									iconUrl: "resources/icon-dollar-gen.png", 
+									iconSize: [20, 20],
+									iconAnchor: [10, 10]
+								}),
+								pane: "dgs"
+							}
+						);
+					} 
 				);
-				finish();
 			}
 		);
 		
@@ -346,10 +416,22 @@
 				);
 				loadFeatureGroup(
 					_fg$WholeFoods, 
-					results, 
-					{radius: 9, color: "black", fillColor: "purple", fillOpacity: 1}
+					results,
+					function(latLng) {
+						return L.marker(
+							latLng, 
+							{
+								icon: 
+								L.icon({
+									iconUrl: "resources/icon-whole-foods.png", 
+									iconSize: [34, 34],
+									iconAnchor: [17, 17]
+								}),
+								pane: "wholefoods"
+							}
+						);
+					} 										
 				);
-				finish();
 			}
 		);
 		
@@ -375,16 +457,15 @@
 				_map.removeLayer(fg);
 			} else {
 				_map.addLayer(fg);
-				finish();
 			}
 		}
 		
-		function loadFeatureGroup(featureGroup, records, options)
+		function loadFeatureGroup(featureGroup, records, markerCreator)
 		{
 			$.each(
 				records, 
 				function(index, record) {
-					L.circleMarker(record.getLatLng(), options)
+					markerCreator(record.getLatLng())
 						.bindPopup(
 							record.getName()+"<br>"+
 							record.getAddress()+"<br>"+
@@ -395,18 +476,8 @@
 							record.getCity()+", "+record.getState()							
 						)
 						.addTo(featureGroup);
-
 				}
 			);	
-		}
-		
-		function finish()
-		{
-			_fg$McDonalds.bringToFront();
-			_fg$Starbucks.bringToFront();				
-			_fg$Walmarts.bringToFront();
-			_fg$DollarGenerals.bringToFront();
-			_fg$WholeFoods.bringToFront();
 		}
 		
 	}
