@@ -131,6 +131,41 @@
 		_fg$Walmarts = L.featureGroup().addTo(_map).on("click", onMarkerClick);
 		_fg$WholeFoods = L.featureGroup().on("click", onMarkerClick);
 
+		$("#info ul").append(
+			$("<li>")
+				.addClass("starbucks")
+				.addClass(_map.hasLayer(_fg$Starbucks) ? "" : "inactive")
+				.append($("<button>").click(button_click))
+		);
+		
+		$("#info ul").append(
+			$("<li>")
+				.addClass("mcdonalds")
+				.addClass(_map.hasLayer(_fg$McDonalds) ? "" : "inactive")
+				.append($("<button>").click(button_click))
+		);
+
+		$("#info ul").append(
+			$("<li>")
+				.addClass("walmart")
+				.addClass(_map.hasLayer(_fg$Walmarts) ? "" : "inactive")
+				.append($("<button>").click(button_click))
+		);
+		
+		$("#info ul").append(
+			$("<li>")
+				.addClass("dollar-general")
+				.addClass(_map.hasLayer(_fg$DollarGenerals) ? "" : "inactive")
+				.append($("<button>").click(button_click))
+		);		
+
+		$("#info ul").append(
+			$("<li>")
+				.addClass("whole-foods")
+				.addClass(_map.hasLayer(_fg$WholeFoods) ? "" : "inactive")
+				.append($("<button>").click(button_click))
+		);
+
 		// one time check to see if touch is being used
 
 		$(document).one(
@@ -198,6 +233,33 @@
 		$(".leaflet-tooltip").remove();
 	}
 
+	
+	function button_click(event)
+	{
+		$(event.target).parent().toggleClass("inactive");
+		var fg;
+		if ($(event.target).parent().hasClass("starbucks")) {
+			fg = _fg$Starbucks;
+		} else if ($(event.target).parent().hasClass("dollar-general")) {
+			fg = _fg$DollarGenerals;
+		} else if ($(event.target).parent().hasClass("walmart")) {
+			fg = _fg$Walmarts;
+		} else if ($(event.target).parent().hasClass("mcdonalds")) {
+			fg = _fg$McDonalds;
+		} else if ($(event.target).parent().hasClass("whole-foods")){
+			fg = _fg$WholeFoods;
+		} else {
+			// nothing
+		}
+		
+		if ($(event.target).parent().hasClass("inactive")) {
+			_map.removeLayer(fg);
+		} else {
+			_map.addLayer(fg);
+		}
+	}
+
+
 	/***************************************************************************
 	**************************** EVENTS (other) ********************************
 	***************************************************************************/
@@ -214,8 +276,13 @@
 	{
 
 		var STATE = $("#info select").val();
+
+		$("#info ul li.starbucks button").html("Starbucks<br>"+"---");
+		$("#info ul li.mcdonalds button").html("McDonalds<br>"+"---");
+		$("#info ul li.walmart button").html("Walmarts<br>"+"---");
+		$("#info ul li.dollar-general button").html("Dollar Generals<br>"+"---");
+		$("#info ul li.whole-foods button").html("Whole Foods<br>"+"---");
 		
-		$("#info ul").empty();
 		_fg$Starbucks.clearLayers();
 		_fg$Walmarts.clearLayers();
 		_fg$DollarGenerals.clearLayers();
@@ -270,16 +337,7 @@
 		new QueryManager(SERVICE_URL_STARBUCKS).getRecords(
 			STATE, 
 			function(results){
-				$("#info ul").append(
-					$("<li>")
-						.addClass("starbucks")
-						.addClass(_map.hasLayer(_fg$Starbucks) ? "" : "inactive")
-						.append(
-							$("<button>")
-								.html("Starbucks<br>"+results.length)
-								.click(button_click)
-						)
-				);
+				$("#info ul li.starbucks button").html("Starbucks<br>"+results.length);
 				loadFeatureGroup(
 					_fg$Starbucks, 
 					results, 						
@@ -304,16 +362,7 @@
 		new QueryManager(SERVICE_URL_MCDONALDS).getRecords(
 			STATE,
 			function(results) {
-				$("#info ul").append(
-					$("<li>")
-						.addClass("mcdonalds")
-						.addClass(_map.hasLayer(_fg$McDonalds) ? "" : "inactive")
-						.append(
-							$("<button>")
-								.html("McDonalds<br>"+results.length)
-								.click(button_click)
-						)
-				);
+				$("#info ul li.mcdonalds button").html("McDonalds<br>"+results.length);
 				loadFeatureGroup(
 					_fg$McDonalds, 
 					results, 						
@@ -338,16 +387,7 @@
 		new QueryManager(SERVICE_URL_WALMART).getRecords(
 			STATE,
 			function(results){
-				$("#info ul").append(
-					$("<li>")
-						.addClass("walmart")
-						.addClass(_map.hasLayer(_fg$Walmarts) ? "" : "inactive")
-						.append(
-							$("<button>")
-								.html("Walmarts<br>"+results.length)
-								.click(button_click)
-						)
-				);
+				$("#info ul li.walmart button").html("Walmarts<br>"+results.length);
 				loadFeatureGroup(
 					_fg$Walmarts,
 					results,
@@ -372,16 +412,7 @@
 		new QueryManager(SERVICE_URL_DOLLARGENERAL).getRecords(
 			STATE,
 			function(results){
-				$("#info ul").append(
-					$("<li>")
-						.addClass("dollar-general")
-						.addClass(_map.hasLayer(_fg$DollarGenerals) ? "" : "inactive")
-						.append(
-							$("<button>")
-								.html("Dollar Generals<br>"+results.length)
-								.click(button_click)
-						)
-				);
+				$("#info ul li.dollar-general button").html("Dollar Generals<br>"+results.length);
 				loadFeatureGroup(
 					_fg$DollarGenerals, 
 					results, 
@@ -406,16 +437,7 @@
 		new QueryManager(SERVICE_URL_WHOLEFOODS).getRecords(
 			STATE,
 			function(results){
-				$("#info ul").append(
-					$("<li>")
-						.addClass("whole-foods")
-						.addClass(_map.hasLayer(_fg$WholeFoods) ? "" : "inactive")
-						.append(
-							$("<button>")
-								.html("Whole Foods<br>"+results.length)
-								.click(button_click)
-						)
-				);
+				$("#info ul li.whole-foods button").html("Whole Foods<br>"+results.length);
 				loadFeatureGroup(
 					_fg$WholeFoods, 
 					results,
@@ -436,31 +458,6 @@
 				);
 			}
 		);
-		
-		function button_click(event)
-		{
-			$(event.target).parent().toggleClass("inactive");
-			var fg;
-			if ($(event.target).parent().hasClass("starbucks")) {
-				fg = _fg$Starbucks;
-			} else if ($(event.target).parent().hasClass("dollar-general")) {
-				fg = _fg$DollarGenerals;
-			} else if ($(event.target).parent().hasClass("walmart")) {
-				fg = _fg$Walmarts;
-			} else if ($(event.target).parent().hasClass("mcdonalds")) {
-				fg = _fg$McDonalds;
-			} else if ($(event.target).parent().hasClass("whole-foods")){
-				fg = _fg$WholeFoods;
-			} else {
-				// nothing
-			}
-			
-			if ($(event.target).parent().hasClass("inactive")) {
-				_map.removeLayer(fg);
-			} else {
-				_map.addLayer(fg);
-			}
-		}
 		
 		function loadFeatureGroup(featureGroup, records, markerCreator)
 		{
