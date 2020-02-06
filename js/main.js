@@ -39,7 +39,7 @@
 		_map = new L.PaddingAwareMap(
 			"map", 
 			{
-				zoomControl: !L.Browser.mobile, 
+				zoomControl: false, 
 				attributionControl: false, 
 				maxZoom: 19, minZoom: 2, 
 				worldCopyJump: true
@@ -48,10 +48,11 @@
 		)			
 			.addLayer(L.esri.basemapLayer("DarkGray"))
 			.addLayer(L.esri.basemapLayer("ImageryLabels"))
-			.addControl(L.control.attribution({position: 'topright'}))
+			.addControl(L.control.attribution({position: 'bottomleft'}))
 			.on("moveend", onExtentChange);
 
 		if (!L.Browser.mobile) {
+			_map.addControl(L.control.zoom({position: "bottomright"}));
 			L.easyButton({
 				states:[
 					{
@@ -61,7 +62,8 @@
 						},
 						title: "Full extent"
 					}
-				]
+				],
+				position: "bottomright"
 			}).addTo(_map);			
 		}
 
@@ -274,7 +276,7 @@
 						.addClass(_map.hasLayer(_fg$Starbucks) ? "" : "inactive")
 						.append(
 							$("<button>")
-								.html("Starbucks: "+results.length)
+								.html("Starbucks<br>"+results.length)
 								.click(button_click)
 						)
 				);
@@ -308,7 +310,7 @@
 						.addClass(_map.hasLayer(_fg$McDonalds) ? "" : "inactive")
 						.append(
 							$("<button>")
-								.html("McDonalds: "+results.length)
+								.html("McDonalds<br>"+results.length)
 								.click(button_click)
 						)
 				);
@@ -342,7 +344,7 @@
 						.addClass(_map.hasLayer(_fg$Walmarts) ? "" : "inactive")
 						.append(
 							$("<button>")
-								.html("Walmarts: "+results.length)
+								.html("Walmarts<br>"+results.length)
 								.click(button_click)
 						)
 				);
@@ -376,7 +378,7 @@
 						.addClass(_map.hasLayer(_fg$DollarGenerals) ? "" : "inactive")
 						.append(
 							$("<button>")
-								.html("Dollar Generals: "+results.length)
+								.html("Dollar Generals<br>"+results.length)
 								.click(button_click)
 						)
 				);
@@ -410,7 +412,7 @@
 						.addClass(_map.hasLayer(_fg$WholeFoods) ? "" : "inactive")
 						.append(
 							$("<button>")
-								.html("Whole Foods: "+results.length)
+								.html("Whole Foods<br>"+results.length)
 								.click(button_click)
 						)
 				);
@@ -488,8 +490,9 @@
 	
 	function getExtentPadding()
 	{
-		/*
 		var landscape = ($(window).width() / $(window).height()) >= 1;
+		/*
+
 		var top = landscape ? 
 					0 : 
 					!$("#blurb").hasClass("hidden") ? $("#blurb").outerHeight() : 0;
@@ -499,10 +502,10 @@
 							0 :
 						0;
 		*/
-		var top = 0;
+		var top = landscape ? 0 : 250;
 		var right = 0;
-		var bottom = $("#info").outerHeight()+10;
-		var left = 0;
+		var bottom = 0;
+		var left = landscape ? $("#info").outerWidth()+10 : 0;
 		return {paddingTopLeft: [left,top], paddingBottomRight: [right,bottom]};
 	}	
 	

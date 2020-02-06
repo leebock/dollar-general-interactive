@@ -110,25 +110,26 @@ a, button {
     background: rgba(255,255,255,0.8);
     padding: 15px;
     left: 10px;
-    bottom: 10px;
+    top: 10px;
     display: flex;
-    //max-width: calc(100% - 50px);
-    
-    @media(max-width: 1023px) {
-      flex-direction: column;
+    flex-direction: column;
+
+    @media/*(max-height: 1023px) and*/ (max-aspect-ratio: 1/1) {
       left: 0px;
-      bottom: 0px;
+      top: 0px;
+      max-height: 250px;
+      width: 320px;
     }
   
     select {
       flex: 0;
+      flex-shrink: 0;
       font-size: 20px;
       padding: 5px;
       background-color: gray;
       color: white;
       border: none;
       max-width: 250px;
-      max-height: 40px;
       margin-right: 20px;
       @media(max-width: 1023px) {
         font-size: 16px;
@@ -139,8 +140,11 @@ a, button {
     
     ul {
       flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      align-items: center;
       flex-wrap: wrap;
-      justify-content: center;
       list-style-type: none;
       -webkit-margin-before: 0px;
       -webkit-margin-after: 0px;
@@ -151,10 +155,10 @@ a, button {
       -moz-margin-end: 0px;
       -moz-padding-start: 0px;
       -moz-padding-end: 0px;      
-      display: flex;
       li {
-        margin-right: 20px;
+        margin-right: 10px;
         button {
+          width: 140px;
           font-size: 16px;
           background: none;
           border-style: solid;

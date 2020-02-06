@@ -129,8 +129,9 @@ a, button {
   background: rgba(255, 255, 255, 0.8);
   padding: 15px;
   left: 10px;
-  bottom: 10px;
+  top: 10px;
   display: flex;
+  flex-direction: column;
   /*
   @media (max-aspect-ratio: 1/1) {
 
@@ -148,22 +149,23 @@ a, button {
   }  
   */
 }
-@media (max-width: 1023px) {
+@media (max-aspect-ratio: 1/1) {
   #main #info {
-    flex-direction: column;
     left: 0px;
-    bottom: 0px;
+    top: 0px;
+    max-height: 250px;
+    width: 320px;
   }
 }
 #main #info select {
   flex: 0;
+  flex-shrink: 0;
   font-size: 20px;
   padding: 5px;
   background-color: gray;
   color: white;
   border: none;
   max-width: 250px;
-  max-height: 40px;
   margin-right: 20px;
 }
 @media (max-width: 1023px) {
@@ -175,8 +177,11 @@ a, button {
 }
 #main #info ul {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  align-items: center;
   flex-wrap: wrap;
-  justify-content: center;
   list-style-type: none;
   -webkit-margin-before: 0px;
   -webkit-margin-after: 0px;
@@ -187,12 +192,12 @@ a, button {
   -moz-margin-end: 0px;
   -moz-padding-start: 0px;
   -moz-padding-end: 0px;
-  display: flex;
 }
 #main #info ul li {
-  margin-right: 20px;
+  margin-right: 10px;
 }
 #main #info ul li button {
+  width: 140px;
   font-size: 16px;
   background: none;
   border-style: solid;
