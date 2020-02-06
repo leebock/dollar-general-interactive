@@ -109,33 +109,33 @@ a, button {
     z-index: 5000;
     background: rgba(255,255,255,0.8);
     padding: 15px;
-    left: 10px;
-    top: 10px;
+    left: 15px;
+    top: 15px;
     display: flex;
     flex-direction: column;
 
     @media/*(max-height: 1023px) and*/ (max-aspect-ratio: 1/1) {
-      left: 0px;
+      left: 50%;
+      -webkit-transform: translateX(-50%);
+      transform: translateX(-50%);      
       top: 0px;
       max-height: 250px;
-      width: 320px;
+      width: 100%;
+      max-width: 480px;
+      margin-left: auto;;
+      margin-right: auto;
     }
   
     select {
       flex: 0;
       flex-shrink: 0;
-      font-size: 20px;
+      font-size: 24px;
       padding: 5px;
       background-color: gray;
       color: white;
       border: none;
-      max-width: 250px;
-      margin-right: 20px;
-      @media(max-width: 1023px) {
-        font-size: 16px;
-        max-width: 175px;
-        margin-bottom: 10px;
-      }
+      margin: 5px;
+      margin-bottom: 10px;
     }
     
     ul {
@@ -156,7 +156,7 @@ a, button {
       -moz-padding-start: 0px;
       -moz-padding-end: 0px;      
       li {
-        margin-right: 10px;
+        margin: 5px;
         button {
           width: 140px;
           font-size: 16px;
