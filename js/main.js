@@ -298,7 +298,7 @@
 		
 		// frame the state
 		_fullExtent = state.getBounds();
-		_map.fitBounds(_fullExtent);	
+		_map.fitBounds(L.latLngBounds(_fullExtent).pad(-0.1));	
 		/*
 		_fl$ElectionResults.setWhere(
 			"STATE_FIPS = '"+state.getFipsCode()+"'",
@@ -488,18 +488,7 @@
 	function getExtentPadding()
 	{
 		var landscape = ($(window).width() / $(window).height()) >= 1;
-		/*
-
-		var top = landscape ? 
-					0 : 
-					!$("#blurb").hasClass("hidden") ? $("#blurb").outerHeight() : 0;
-		var right = landscape ? 
-						!$("#blurb").hasClass("hidden") ? 
-							$(window).width() - $("#blurb").position().left : 
-							0 :
-						0;
-		*/
-		var top = landscape ? 0 : 250;
+		var top = landscape ? 0 : $("#info").outerHeight();
 		var right = 0;
 		var bottom = 0;
 		var left = landscape ? $("#info").outerWidth()+10 : 0;
