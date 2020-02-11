@@ -162,6 +162,11 @@ a, button {
     margin-right: auto;
   }
 }
+@media (max-width: 500px) {
+  #main #info {
+    padding: 5px;
+  }
+}
 #main #info select {
   flex: 0;
   flex-shrink: 0;
@@ -194,6 +199,11 @@ a, button {
 #main #info ul li {
   margin: 5px;
 }
+@media (max-width: 500px) {
+  #main #info ul li {
+    margin: 2px;
+  }
+}
 #main #info ul li button {
   width: 140px;
   font-size: 16px;
@@ -202,6 +212,22 @@ a, button {
   padding: 10px;
   border-radius: 10px;
   border-color: black;
+}
+@media (max-width: 500px) {
+  #main #info ul li button {
+    width: 120px;
+    font-size: 14px;
+    padding: 5px;
+  }
+}
+#main #info ul li button span {
+  pointer-events: none;
+  font-size: 40px;
+}
+@media (max-aspect-ratio: 1/1) {
+  #main #info ul li button span {
+    font-size: 22px;
+  }
 }
 #main #info ul li.whole-foods {
   order: 5;

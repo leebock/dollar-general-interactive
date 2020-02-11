@@ -125,7 +125,9 @@ a, button {
       margin-left: auto;;
       margin-right: auto;
     }
-  
+    @media (max-width: 500px) {
+      padding: 5px;
+    }  
     select {
       flex: 0;
       flex-shrink: 0;
@@ -157,6 +159,9 @@ a, button {
       -moz-padding-end: 0px;      
       li {
         margin: 5px;
+        @media (max-width: 500px) {
+          margin: 2px;
+        }
         button {
           width: 140px;
           font-size: 16px;
@@ -165,6 +170,18 @@ a, button {
           padding: 10px;
           border-radius: 10px;
           border-color: black;
+          @media (max-width: 500px) {
+            width: 120px;
+            font-size: 14px;
+            padding: 5px;
+          }
+          span {
+            pointer-events: none;
+            font-size: 40px;
+            @media (max-aspect-ratio: 1/1) {
+              font-size: 22px;
+            }
+          }
         }
         &.whole-foods {
           order: 5;
