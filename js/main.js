@@ -139,40 +139,25 @@
 		_fg$McDonalds = L.featureGroup().on("click", onMarkerClick);
 		_fg$Walmarts = L.featureGroup().addTo(_map).on("click", onMarkerClick);
 		_fg$WholeFoods = L.featureGroup().on("click", onMarkerClick);
-
-		$("#info ul").append(
-			$("<li>")
-				.addClass(CLASS_STARBUCKS)
-				.addClass(_map.hasLayer(_fg$Starbucks) ? "" : "inactive")
-				.append($("<button>").click(button_click))
-		);
 		
-		$("#info ul").append(
-			$("<li>")
-				.addClass(CLASS_MCDONALDS)
-				.addClass(_map.hasLayer(_fg$McDonalds) ? "" : "inactive")
-				.append($("<button>").click(button_click))
-		);
-
-		$("#info ul").append(
-			$("<li>")
-				.addClass(CLASS_WALMART)
-				.addClass(_map.hasLayer(_fg$Walmarts) ? "" : "inactive")
-				.append($("<button>").click(button_click))
-		);
+		var lut = {};
+		lut[CLASS_STARBUCKS] = _fg$Starbucks;
+		lut[CLASS_WALMART] = _fg$Walmarts;
+		lut[CLASS_MCDONALDS] = _fg$McDonalds;
+		lut[CLASS_WHOLE_FOODS] = _fg$WholeFoods;
+		lut[CLASS_DOLLAR_GENERAL] = _fg$DollarGenerals;
 		
-		$("#info ul").append(
-			$("<li>")
-				.addClass(CLASS_DOLLAR_GENERAL)
-				.addClass(_map.hasLayer(_fg$DollarGenerals) ? "" : "inactive")
-				.append($("<button>").click(button_click))
-		);		
-
-		$("#info ul").append(
-			$("<li>")
-				.addClass(CLASS_WHOLE_FOODS)
-				.addClass(_map.hasLayer(_fg$WholeFoods) ? "" : "inactive")
-				.append($("<button>").click(button_click))
+		$.each(
+			lut,
+			function(className, layer)
+			{
+				$("#info ul").append(
+					$("<li>")
+						.addClass(className)
+						.addClass(_map.hasLayer(layer) ? "" : "inactive")
+						.append($("<button>").click(button_click))
+				);
+			}
 		);
 
 		// one time check to see if touch is being used
