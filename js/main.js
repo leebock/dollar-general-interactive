@@ -21,7 +21,7 @@
 	var _fg$WholeFoods;
 	var _fg$McDonalds;
 	
-	//var _fl$ElectionResults;
+	var _fg$Counties;
 	var _fg$States;
 	
 	var BNDS_LOWER48 = [[24.743, -124.784], [49.345, -66.951]];
@@ -67,9 +67,15 @@
 			}).addTo(_map);			
 		}
 
+		_map.createPane("transportation");
+		_map.getPane("transportation").style.zIndex = 260;
+
 		_map.createPane("mask");
 		_map.getPane("mask").style.zIndex = 300;
 		_map.getPane("mask").style.pointerEvents = "none";
+		
+		_map.createPane("counties");
+		_map.getPane("counties").style.zIndex = 250;
 		
 		_map.createPane("wholefoods");
 		_map.getPane("wholefoods").style.zIndex = 623;
@@ -94,31 +100,28 @@
 		);
 		
 		L.esri.tiledMapLayer(
-			{url: "http://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer"}
+			{url: "http://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer",
+			pane: "transportation"}
 		)
 		.addTo(_map);			
 
-		
-		/*
-		_fl$ElectionResults = L.esri.featureLayer(
+		_fg$Counties = L.geoJSON(
+			[],
 			{
-				url: "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/2016_Presidential_Results_by_County/FeatureServer/0",
-				where: "1 <> 1",
+				pane: "counties", 
 				style: function(feature) {
 					return {
+						fillOpacity: 0.7, 
+						stroke: true, 
 						color: "white", 
-						fillColor: feature.properties.Winner === "Clinton" ? "blue" : "red",
-						fillOpacity: 0.8
-					};
+						weight: 1
+					};					
 				},
-				pane: "test",
 				onEachFeature: function(feature, layer) {
-					layer.bindTooltip(feature.properties.NAME+" County");
+					layer.bindTooltip(feature.properties.NAME+" County: "+feature.properties.POPULATION.toLocaleString());
 				}
 			}
-		)
-		.addTo(_map);
-		*/
+		);
 		
 		_fg$States = L.geoJSON(
 			[],
@@ -216,6 +219,8 @@
 					}
 				);
 				
+				$("#info input").change(onCheckChange);
+				
 				process();
 				
 	        }
@@ -233,6 +238,14 @@
 		$(".leaflet-tooltip").remove();
 	}
 
+	function onCheckChange(e)
+	{
+		if ($("input").get(0).checked) {
+			_map.addLayer(_fg$Counties);
+		} else {
+			_map.removeLayer(_fg$Counties);
+		}
+	}
 	
 	function button_click(event)
 	{
@@ -299,28 +312,35 @@
 		// frame the state
 		_fullExtent = state.getBounds();
 		_map.fitBounds(L.latLngBounds(_fullExtent).pad(-0.1));	
-		/*
-		_fl$ElectionResults.setWhere(
-			"STATE_FIPS = '"+state.getFipsCode()+"'",
-			function() {
-				$("#info ul").append(
-					$("<li>")
-						.addClass("election")
-						.addClass($(".leaflet-test-pane").css("display") === "none" ? "inactive" : "")
-						.append(
-							$("<button>")
-								.html("2016 Election")
-								.click(
-									function(event) {
-										$(".leaflet-test-pane").toggle();
-										$(event.target).parent().toggleClass("inactive");										
-									}
-								)
-						)
-				);
-			}
-		);
-		*/
+
+		_fg$Counties.clearLayers();
+		L.esri.query({
+			url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Counties_Generalized/FeatureServer/0"
+		})
+			.where("STATE_FIPS = '"+state.getFipsCode()+"'")
+			.run(
+				function(error, featureCollection, response) {
+					_fg$Counties.addData(featureCollection);
+					var values = $.map(
+						featureCollection.features, 
+						function(feature){return feature.properties.POPULATION;}
+					).sort(function(a,b){return a-b;});
+					var increment = Math.floor(values.length / 5);
+					_fg$Counties.setStyle(
+						function(feature) {
+							return {fillColor: getColor(feature.properties.POPULATION)};
+							function getColor(population)
+							{
+								return population <= values[increment] ? "#F5F500" :
+										population <= values[increment*2] ? "#F5B800" :
+										population <= values[increment*3] ? "#F57A00" :
+										population <= values[increment*4] ? "#F53D00" :
+																			"#F50000";
+							}
+						}
+					);
+				}
+			);
 
 		_fg$States.clearLayers();
 		L.esri.query({
@@ -502,7 +522,6 @@
 			return true;
 		}
 	}		
-
 	
 	function parseArgs()
 	{

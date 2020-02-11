@@ -119,7 +119,7 @@ a, button {
       -webkit-transform: translateX(-50%);
       transform: translateX(-50%);      
       top: 0px;
-      max-height: 250px;
+      max-height: 50%;
       width: 100%;
       max-width: 480px;
       margin-left: auto;;
@@ -138,6 +138,9 @@ a, button {
       border: none;
       margin: 5px;
       margin-bottom: 10px;
+      @media (max-width: 500px) {
+        font-size: 16px;
+      }  
     }
     
     ul {
@@ -157,6 +160,9 @@ a, button {
       -moz-margin-end: 0px;
       -moz-padding-start: 0px;
       -moz-padding-end: 0px;      
+      @media/*(max-height: 1023px) and*/ (max-aspect-ratio: 1/1) {
+        flex-direction: row;
+      }
       li {
         margin: 5px;
         @media (max-width: 500px) {
@@ -234,23 +240,14 @@ a, button {
         }
       }
     }
-      
-    /*
-    @media (max-aspect-ratio: 1/1) {
-      
-      max-width: 96%;
-      max-height: 45%;
-      top: 1%;
-      right: 2%;
-      left: 2%;
-      transform: none;
-
-      #{$GLOBAL-CLASS-ZOOMCONTROL} & {
-        max-width: calc(96% - 40px);
-        left: auto;
-      }
-    }  
-    */
+    
+    input {
+      cursor: pointer;
+    }
+    
+    label {
+      font-size: 16px;
+    }
         
   } /* #info */
   

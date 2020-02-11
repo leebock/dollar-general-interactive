@@ -132,22 +132,6 @@ a, button {
   top: 15px;
   display: flex;
   flex-direction: column;
-  /*
-  @media (max-aspect-ratio: 1/1) {
-
-    max-width: 96%;
-    max-height: 45%;
-    top: 1%;
-    right: 2%;
-    left: 2%;
-    transform: none;
-
-    .zoom-control & {
-      max-width: calc(96% - 40px);
-      left: auto;
-    }
-  }  
-  */
 }
 @media (max-aspect-ratio: 1/1) {
   #main #info {
@@ -155,7 +139,7 @@ a, button {
     -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
     top: 0px;
-    max-height: 250px;
+    max-height: 50%;
     width: 100%;
     max-width: 480px;
     margin-left: auto;
@@ -178,6 +162,11 @@ a, button {
   margin: 5px;
   margin-bottom: 10px;
 }
+@media (max-width: 500px) {
+  #main #info select {
+    font-size: 16px;
+  }
+}
 #main #info ul {
   flex: 1;
   display: flex;
@@ -195,6 +184,11 @@ a, button {
   -moz-margin-end: 0px;
   -moz-padding-start: 0px;
   -moz-padding-end: 0px;
+}
+@media (max-aspect-ratio: 1/1) {
+  #main #info ul {
+    flex-direction: row;
+  }
 }
 #main #info ul li {
   margin: 5px;
@@ -275,6 +269,12 @@ a, button {
   background: none;
   border-color: gray;
   color: black;
+}
+#main #info input {
+  cursor: pointer;
+}
+#main #info label {
+  font-size: 16px;
 }
 
 /*# sourceMappingURL=main.css.map */
