@@ -12,6 +12,12 @@
 	var SERVICE_URL_WHOLEFOODS = "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/infogroup012020_wholefoods/FeatureServer/0";
 	var SERVICE_URL_MCDONALDS = "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/infogroup012020_mcdonalds/FeatureServer/0";
 	
+	var CLASS_STARBUCKS = "starbucks";
+	var CLASS_DOLLAR_GENERAL = "dollar-general";
+	var CLASS_WALMART = "walmart";
+	var CLASS_MCDONALDS = "mcdonalds";
+	var CLASS_WHOLE_FOODS = "whole-foods";
+	
 	var _map;
 	var _states;
 	
@@ -136,35 +142,35 @@
 
 		$("#info ul").append(
 			$("<li>")
-				.addClass("starbucks")
+				.addClass(CLASS_STARBUCKS)
 				.addClass(_map.hasLayer(_fg$Starbucks) ? "" : "inactive")
 				.append($("<button>").click(button_click))
 		);
 		
 		$("#info ul").append(
 			$("<li>")
-				.addClass("mcdonalds")
+				.addClass(CLASS_MCDONALDS)
 				.addClass(_map.hasLayer(_fg$McDonalds) ? "" : "inactive")
 				.append($("<button>").click(button_click))
 		);
 
 		$("#info ul").append(
 			$("<li>")
-				.addClass("walmart")
+				.addClass(CLASS_WALMART)
 				.addClass(_map.hasLayer(_fg$Walmarts) ? "" : "inactive")
 				.append($("<button>").click(button_click))
 		);
 		
 		$("#info ul").append(
 			$("<li>")
-				.addClass("dollar-general")
+				.addClass(CLASS_DOLLAR_GENERAL)
 				.addClass(_map.hasLayer(_fg$DollarGenerals) ? "" : "inactive")
 				.append($("<button>").click(button_click))
 		);		
 
 		$("#info ul").append(
 			$("<li>")
-				.addClass("whole-foods")
+				.addClass(CLASS_WHOLE_FOODS)
 				.addClass(_map.hasLayer(_fg$WholeFoods) ? "" : "inactive")
 				.append($("<button>").click(button_click))
 		);
@@ -251,15 +257,15 @@
 	{
 		$(event.target).parent().toggleClass("inactive");
 		var fg;
-		if ($(event.target).parent().hasClass("starbucks")) {
+		if ($(event.target).parent().hasClass(CLASS_STARBUCKS)) {
 			fg = _fg$Starbucks;
-		} else if ($(event.target).parent().hasClass("dollar-general")) {
+		} else if ($(event.target).parent().hasClass(CLASS_DOLLAR_GENERAL)) {
 			fg = _fg$DollarGenerals;
-		} else if ($(event.target).parent().hasClass("walmart")) {
+		} else if ($(event.target).parent().hasClass(CLASS_WALMART)) {
 			fg = _fg$Walmarts;
-		} else if ($(event.target).parent().hasClass("mcdonalds")) {
+		} else if ($(event.target).parent().hasClass(CLASS_MCDONALDS)) {
 			fg = _fg$McDonalds;
-		} else if ($(event.target).parent().hasClass("whole-foods")){
+		} else if ($(event.target).parent().hasClass(CLASS_WHOLE_FOODS)){
 			fg = _fg$WholeFoods;
 		} else {
 			// nothing
@@ -290,11 +296,11 @@
 
 		var STATE = $("#info select").val();
 
-		$("#info ul li.starbucks button").html("Starbucks<br>"+"<span>---</span>");
-		$("#info ul li.mcdonalds button").html("McDonalds<br>"+"<span>---</span>");
-		$("#info ul li.walmart button").html("Walmarts<br>"+"<span>---</span>");
-		$("#info ul li.dollar-general button").html("Dollar Generals<br>"+"<span>---</span>");
-		$("#info ul li.whole-foods button").html("Whole Foods<br>"+"<span>---</span>");
+		$("#info ul li."+CLASS_STARBUCKS+" button").html("Starbucks<br>"+"<span>---</span>");
+		$("#info ul li."+CLASS_MCDONALDS+" button").html("McDonalds<br>"+"<span>---</span>");
+		$("#info ul li."+CLASS_WALMART+" button").html("Walmarts<br>"+"<span>---</span>");
+		$("#info ul li."+CLASS_DOLLAR_GENERAL+" button").html("Dollar Generals<br>"+"<span>---</span>");
+		$("#info ul li."+CLASS_WHOLE_FOODS+" button").html("Whole Foods<br>"+"<span>---</span>");
 		
 		_fg$Starbucks.clearLayers();
 		_fg$Walmarts.clearLayers();
@@ -357,7 +363,7 @@
 		new QueryManager(SERVICE_URL_STARBUCKS).getRecords(
 			STATE, 
 			function(results){
-				$("#info ul li.starbucks button").html("Starbucks<br><span>"+results.length+"</span>");
+				$("#info ul li."+CLASS_STARBUCKS+" button").html("Starbucks<br><span>"+results.length+"</span>");
 				loadFeatureGroup(
 					_fg$Starbucks, 
 					results, 						
@@ -382,7 +388,7 @@
 		new QueryManager(SERVICE_URL_MCDONALDS).getRecords(
 			STATE,
 			function(results) {
-				$("#info ul li.mcdonalds button").html("McDonalds<br><span>"+results.length+"</span>");
+				$("#info ul li."+CLASS_MCDONALDS+" button").html("McDonalds<br><span>"+results.length+"</span>");
 				loadFeatureGroup(
 					_fg$McDonalds, 
 					results, 						
@@ -407,7 +413,7 @@
 		new QueryManager(SERVICE_URL_WALMART).getRecords(
 			STATE,
 			function(results){
-				$("#info ul li.walmart button").html("Walmarts<br><span>"+results.length+"</span>");
+				$("#info ul li."+CLASS_WALMART+" button").html("Walmarts<br><span>"+results.length+"</span>");
 				loadFeatureGroup(
 					_fg$Walmarts,
 					results,
@@ -432,7 +438,7 @@
 		new QueryManager(SERVICE_URL_DOLLARGENERAL).getRecords(
 			STATE,
 			function(results){
-				$("#info ul li.dollar-general button").html("Dollar Generals<br><span>"+results.length+"</span>");
+				$("#info ul li."+CLASS_DOLLAR_GENERAL+" button").html("Dollar Generals<br><span>"+results.length+"</span>");
 				loadFeatureGroup(
 					_fg$DollarGenerals, 
 					results, 
@@ -457,7 +463,7 @@
 		new QueryManager(SERVICE_URL_WHOLEFOODS).getRecords(
 			STATE,
 			function(results){
-				$("#info ul li.whole-foods button").html("Whole Foods<br><span>"+results.length+"</span>");
+				$("#info ul li."+CLASS_WHOLE_FOODS+" button").html("Whole Foods<br><span>"+results.length+"</span>");
 				loadFeatureGroup(
 					_fg$WholeFoods, 
 					results,
