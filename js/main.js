@@ -30,6 +30,8 @@
 	var _fg$Counties;
 	var _fg$States;
 	
+	var _buttonList;
+	
 	var BNDS_LOWER48 = [[24.743, -124.784], [49.345, -66.951]];
 	
 	var _fullExtent = BNDS_LOWER48;
@@ -181,30 +183,16 @@
 		).on("click", onMarkerClick);
 		
 		var lut = {};
-		lut[CLASS_STARBUCKS] = _fg$Starbucks;
-		lut[CLASS_WALMART] = _fg$Walmarts;
-		lut[CLASS_MCDONALDS] = _fg$McDonalds;
-		lut[CLASS_WHOLE_FOODS] = _fg$WholeFoods;
-		lut[CLASS_DOLLAR_GENERAL] = _fg$DollarGenerals;
+		lut[CLASS_STARBUCKS] = _map.hasLayer(_fg$Starbucks) ? "" : "inactive";
+		lut[CLASS_WALMART] = _map.hasLayer(_fg$Walmarts) ? "" : "inactive";
+		lut[CLASS_MCDONALDS] = _map.hasLayer(_fg$McDonalds) ? "" : "inactive";
+		lut[CLASS_WHOLE_FOODS] = _map.hasLayer(_fg$WholeFoods) ? "" : "inactive";
+		lut[CLASS_DOLLAR_GENERAL] = _map.hasLayer(_fg$DollarGenerals) ? "" : "inactive";
 		
-		$.each(
-			lut,
-			function(className, layer)
-			{
-				$("#info ul").append(
-					$("<li>")
-						.addClass(className)
-						.addClass(_map.hasLayer(layer) ? "" : "inactive")
-						.append(
-							$("<button>")
-								.append($("<span>"))
-								.append($("<span>"))
-								.click(button_click)
-						)
-				);
-			}
-		);
-
+		_buttonList = $(new ButtonList($("ul#buttonlist").get(0), lut))
+			.on("layerToggle", onLayerToggle)
+			.get(0);
+		
 		// one time check to see if touch is being used
 
 		$(document).one(
@@ -283,25 +271,15 @@
 		}
 	}
 	
-	function button_click(event)
+	function onLayerToggle(event, className, visibility)
 	{
-		$(event.target).parent().toggleClass("inactive");
-		var fg;
-		if ($(event.target).parent().hasClass(CLASS_STARBUCKS)) {
-			fg = _fg$Starbucks;
-		} else if ($(event.target).parent().hasClass(CLASS_DOLLAR_GENERAL)) {
-			fg = _fg$DollarGenerals;
-		} else if ($(event.target).parent().hasClass(CLASS_WALMART)) {
-			fg = _fg$Walmarts;
-		} else if ($(event.target).parent().hasClass(CLASS_MCDONALDS)) {
-			fg = _fg$McDonalds;
-		} else if ($(event.target).parent().hasClass(CLASS_WHOLE_FOODS)){
-			fg = _fg$WholeFoods;
-		} else {
-			// nothing
-		}
+		var fg = className === CLASS_STARBUCKS ? _fg$Starbucks :
+				className === CLASS_DOLLAR_GENERAL ? _fg$DollarGenerals :
+				className === CLASS_WALMART ? _fg$Walmarts :
+				className === CLASS_MCDONALDS ? _fg$McDonalds : 
+				className === CLASS_WHOLE_FOODS ? _fg$WholeFoods : null;
 		
-		if ($(event.target).parent().hasClass("inactive")) {
+		if (visibility) {
 			_map.removeLayer(fg);
 		} else {
 			_map.addLayer(fg);
@@ -326,7 +304,7 @@
 
 		var STATE = $("#info select").val();
 
-		$("#info ul li button span:nth-of-type(2)").html("---");
+		_buttonList.clearValues();
 		
 		_fg$Starbucks.clearLayers();
 		_fg$Walmarts.clearLayers();
@@ -389,7 +367,7 @@
 		new QueryManager(SERVICE_URL_STARBUCKS).getRecords(
 			STATE, 
 			function(results){
-				$("#info ul li."+CLASS_STARBUCKS+" button span:nth-of-type(2)").html(results.length);
+				_buttonList.setValue(CLASS_STARBUCKS, results.length);
 				_fg$Starbucks.addIcons(results);
 			}
 		);
@@ -397,7 +375,7 @@
 		new QueryManager(SERVICE_URL_MCDONALDS).getRecords(
 			STATE,
 			function(results) {
-				$("#info ul li."+CLASS_MCDONALDS+" button span:nth-of-type(2)").html(results.length);
+				_buttonList.setValue(CLASS_MCDONALDS, results.length);
 				_fg$McDonalds.addIcons(results);
 			}
 		);
@@ -405,7 +383,7 @@
 		new QueryManager(SERVICE_URL_WALMART).getRecords(
 			STATE,
 			function(results){
-				$("#info ul li."+CLASS_WALMART+" button span:nth-of-type(2)").html(results.length);
+				_buttonList.setValue(CLASS_WALMART, results.length);
 				_fg$Walmarts.addIcons(results);
 			}
 		);
@@ -413,7 +391,7 @@
 		new QueryManager(SERVICE_URL_DOLLARGENERAL).getRecords(
 			STATE,
 			function(results){
-				$("#info ul li."+CLASS_DOLLAR_GENERAL+" button span:nth-of-type(2)").html(results.length);
+				_buttonList.setValue(CLASS_DOLLAR_GENERAL, results.length);
 				_fg$DollarGenerals.addIcons(results);
 			}
 		);
@@ -421,7 +399,7 @@
 		new QueryManager(SERVICE_URL_WHOLEFOODS).getRecords(
 			STATE,
 			function(results){
-				$("#info ul li."+CLASS_WHOLE_FOODS+" button span:nth-of-type(2)").html(results.length);
+				_buttonList.setValue(CLASS_WHOLE_FOODS, results.length);
 				_fg$WholeFoods.addIcons(results);
 			}
 		);
