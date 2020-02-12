@@ -1,0 +1,119 @@
+ul#buttonlist {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  align-items: center;
+  flex-wrap: wrap;
+  list-style-type: none;
+  -webkit-margin-before: 0px;
+  -webkit-margin-after: 0px;
+  -webkit-margin-start: 0px;
+  -webkit-margin-end: 0px;
+  -webkit-padding-start: 0px;
+  -moz-margin-start: 0px;
+  -moz-margin-end: 0px;
+  -moz-padding-start: 0px;
+  -moz-padding-end: 0px;      
+  @media/*(max-height: 1023px) and*/ (max-aspect-ratio: 1/1) {
+    flex-direction: row;
+  }
+  li {
+    margin: 5px;
+    @media (max-width: 500px) {
+      margin: 2px;
+    }
+    button {
+      width: 140px;
+      font-size: 16px;
+      background: none;
+      border-style: solid;
+      padding: 10px;
+      border-radius: 10px;
+      border-color: black;
+      display: flex;
+      flex-direction: column;
+      @media (max-width: 500px) {
+        width: 120px;
+        font-size: 14px;
+        padding: 5px;
+      }
+      span {
+        pointer-events: none;
+      }
+      span:nth-of-type(2) {
+        font-size: 38px;
+        @media (max-aspect-ratio: 1/1) {
+          font-size: 22px;
+        }
+      }
+    }
+    &.whole-foods {
+      order: 5;
+      button {
+        background: rgb(103,200,35);
+        color: white;            
+        span:nth-of-type(1) {
+          &::before {
+            content: "Whole Foods";
+          }
+        }
+      }
+    }
+    &.dollar-general {
+      order: 1;
+      button {
+        background: yellow;
+        color: black;            
+        span:nth-of-type(1) {
+          &::before {
+            content: "Dollar General";
+          }
+        }
+      }
+    }
+    &.starbucks {
+      order: 3;
+      button {
+        background: green;
+        color: white;
+        span:nth-of-type(1) {
+          &::before {
+            content: "Starbucks";
+          }
+        }
+      }
+    }
+    &.walmart {
+      order: 2;
+      button {
+        background: blue;
+        color: white;
+        span:nth-of-type(1) {
+          &::before {
+            content: "Walmart";
+          }
+        }
+      }
+    }
+    &.mcdonalds {
+      order: 4;
+      button {
+        background: red;
+        color: yellow;
+        span:nth-of-type(1) {
+          &::before {
+            content: "McDonalds";
+          }
+        }
+      }
+    }
+    &.inactive {
+      button {
+        background: none;
+        border-color: gray;
+        color: black;
+      }
+    }
+  }
+} 

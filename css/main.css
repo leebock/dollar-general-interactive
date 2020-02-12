@@ -132,6 +132,7 @@ a, button {
   top: 15px;
   display: flex;
   flex-direction: column;
+  /*defines ul#buttonlist */
 }
 @media (max-aspect-ratio: 1/1) {
   #main #info {
@@ -167,7 +168,7 @@ a, button {
     font-size: 16px;
   }
 }
-#main #info ul {
+#main #info ul#buttonlist {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -186,19 +187,19 @@ a, button {
   -moz-padding-end: 0px;
 }
 @media (max-aspect-ratio: 1/1) {
-  #main #info ul {
+  #main #info ul#buttonlist {
     flex-direction: row;
   }
 }
-#main #info ul li {
+#main #info ul#buttonlist li {
   margin: 5px;
 }
 @media (max-width: 500px) {
-  #main #info ul li {
+  #main #info ul#buttonlist li {
     margin: 2px;
   }
 }
-#main #info ul li button {
+#main #info ul#buttonlist li button {
   width: 140px;
   font-size: 16px;
   background: none;
@@ -210,83 +211,90 @@ a, button {
   flex-direction: column;
 }
 @media (max-width: 500px) {
-  #main #info ul li button {
+  #main #info ul#buttonlist li button {
     width: 120px;
     font-size: 14px;
     padding: 5px;
   }
 }
-#main #info ul li button span {
+#main #info ul#buttonlist li button span {
   pointer-events: none;
 }
-#main #info ul li button span:nth-of-type(2) {
+#main #info ul#buttonlist li button span:nth-of-type(2) {
   font-size: 38px;
 }
 @media (max-aspect-ratio: 1/1) {
-  #main #info ul li button span:nth-of-type(2) {
+  #main #info ul#buttonlist li button span:nth-of-type(2) {
     font-size: 22px;
   }
 }
-#main #info ul li.whole-foods {
+#main #info ul#buttonlist li.whole-foods {
   order: 5;
 }
-#main #info ul li.whole-foods button {
+#main #info ul#buttonlist li.whole-foods button {
   background: #67c823;
   color: white;
 }
-#main #info ul li.whole-foods button span:nth-of-type(1)::before {
+#main #info ul#buttonlist li.whole-foods button span:nth-of-type(1)::before {
   content: "Whole Foods";
 }
-#main #info ul li.dollar-general {
+#main #info ul#buttonlist li.dollar-general {
   order: 1;
 }
-#main #info ul li.dollar-general button {
+#main #info ul#buttonlist li.dollar-general button {
   background: yellow;
   color: black;
 }
-#main #info ul li.dollar-general button span:nth-of-type(1)::before {
+#main #info ul#buttonlist li.dollar-general button span:nth-of-type(1)::before {
   content: "Dollar General";
 }
-#main #info ul li.starbucks {
+#main #info ul#buttonlist li.starbucks {
   order: 3;
 }
-#main #info ul li.starbucks button {
+#main #info ul#buttonlist li.starbucks button {
   background: green;
   color: white;
 }
-#main #info ul li.starbucks button span:nth-of-type(1)::before {
+#main #info ul#buttonlist li.starbucks button span:nth-of-type(1)::before {
   content: "Starbucks";
 }
-#main #info ul li.walmart {
+#main #info ul#buttonlist li.walmart {
   order: 2;
 }
-#main #info ul li.walmart button {
+#main #info ul#buttonlist li.walmart button {
   background: blue;
   color: white;
 }
-#main #info ul li.walmart button span:nth-of-type(1)::before {
+#main #info ul#buttonlist li.walmart button span:nth-of-type(1)::before {
   content: "Walmart";
 }
-#main #info ul li.mcdonalds {
+#main #info ul#buttonlist li.mcdonalds {
   order: 4;
 }
-#main #info ul li.mcdonalds button {
+#main #info ul#buttonlist li.mcdonalds button {
   background: red;
   color: yellow;
 }
-#main #info ul li.mcdonalds button span:nth-of-type(1)::before {
+#main #info ul#buttonlist li.mcdonalds button span:nth-of-type(1)::before {
   content: "McDonalds";
 }
-#main #info ul li.inactive button {
+#main #info ul#buttonlist li.inactive button {
   background: none;
   border-color: gray;
   color: black;
 }
-#main #info input {
-  cursor: pointer;
+#main #info div:nth-of-type(1) {
+  display: flex;
+  align-items: center;
 }
-#main #info label {
-  font-size: 16px;
+#main #info div:nth-of-type(1) input[type=checkbox] {
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+}
+#main #info div:nth-of-type(1) label {
+  font-size: 20px;
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=main.css.map */
