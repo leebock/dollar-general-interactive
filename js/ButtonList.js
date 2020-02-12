@@ -10,7 +10,7 @@ function ButtonList(ul, lut)
             $(ul).append(
                 $("<li>")
                     .addClass(className)
-                    .addClass(defaultState)
+                    .addClass(defaultState ? "" : "inactive")
                     .append(
                         $("<button>")
                             .attr("value", className)

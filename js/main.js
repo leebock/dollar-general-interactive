@@ -5,28 +5,61 @@
 	//var WIDTH_THRESHOLD = 768;
 
 	var GLOBAL_CLASS_USETOUCH = "touch";
+
+	/* note: name property below serves as layer pane name, general identifier, 
+		and css class */
 	
-	var SERVICE_URL_STARBUCKS = "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/infogroup012020_starbucks/FeatureServer/0";
-	var SERVICE_URL_WALMART = "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/infogroup012020_walmart/FeatureServer/0";
-	var SERVICE_URL_DOLLARGENERAL = "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/infogroup012020_dollargeneral/FeatureServer/0";
-	var SERVICE_URL_WHOLEFOODS = "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/infogroup012020_wholefoods/FeatureServer/0";
-	var SERVICE_URL_MCDONALDS = "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/infogroup012020_mcdonalds/FeatureServer/0";
-	
-	var CLASS_STARBUCKS = "starbucks";
-	var CLASS_DOLLAR_GENERAL = "dollar-general";
-	var CLASS_WALMART = "walmart";
-	var CLASS_MCDONALDS = "mcdonalds";
-	var CLASS_WHOLE_FOODS = "whole-foods";
+	var _master = [
+		{
+			name: "walmart", 
+			url: "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/infogroup012020_walmart/FeatureServer/0", 
+			icon: {
+				iconUrl: "resources/icon-walmart.png", 
+				iconSize: [34, 34],
+				iconAnchor: [17, 17]
+			}
+		},
+		{
+			name: "mcdonalds", 
+			url: "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/infogroup012020_mcdonalds/FeatureServer/0", 
+			icon: {
+				iconUrl: "resources/icon-mcds.png", 
+				iconSize: [22, 22],
+				iconAnchor: [11, 11]
+			}
+		},
+		{
+			name: "starbucks", 
+			url: "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/infogroup012020_starbucks/FeatureServer/0", 
+			icon: {
+				iconUrl: "resources/icon-starbucks.png", 
+				iconSize: [20, 20],
+				iconAnchor: [10, 10]
+			}
+		},
+		{
+			name: "dollar-general", 
+			url: "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/infogroup012020_dollargeneral/FeatureServer/0", 
+			icon: {
+				iconUrl: "resources/icon-dollar-gen.png", 
+				iconSize: [20, 20],
+				iconAnchor: [10, 10]
+			}
+		},
+		{
+			name: "whole-foods", 
+			url: "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/infogroup012020_wholefoods/FeatureServer/0", 
+			icon: {
+				iconUrl: "resources/icon-whole-foods.png", 
+				iconSize: [34, 34],
+				iconAnchor: [17, 17]
+			}
+		}
+	];
 	
 	var _map;
 	var _states;
-	
-	var _fg$Starbucks;
-	var _fg$DollarGenerals;
-	var _fg$Walmarts;
-	var _fg$WholeFoods;
-	var _fg$McDonalds;
-	
+
 	var _fg$Counties;
 	var _fg$States;
 	
@@ -74,7 +107,22 @@
 				position: "bottomright"
 			}).addTo(_map);			
 		}
-
+		
+		// create the layer for each item in master (I delayed this until dom loaded...)
+		
+		$.each(
+			_master, 
+			function(index, item) {
+				_map.createPane(item.name);
+				_map.getPane(item.name).style.zIndex = 619+index;
+				item.layer = L.retailMarkerGroup([], L.icon(item.icon), item.name)
+					.on("click", onMarkerClick);
+				if (index === 0 || index === 3) {
+					item.layer.addTo(_map);
+				}
+			}
+		);
+				
 		_map.createPane("transportation");
 		_map.getPane("transportation").style.zIndex = 260;
 
@@ -84,21 +132,6 @@
 		
 		_map.createPane("counties");
 		_map.getPane("counties").style.zIndex = 250;
-		
-		_map.createPane("wholefoods");
-		_map.getPane("wholefoods").style.zIndex = 623;
-		
-		_map.createPane("dgs");
-		_map.getPane("dgs").style.zIndex = 622;
-		
-		_map.createPane("starbucks");
-		_map.getPane("starbucks").style.zIndex = 621;
-		
-		_map.createPane("mcdonalds");
-		_map.getPane("mcdonalds").style.zIndex = 620;
-		
-		_map.createPane("walmart");
-		_map.getPane("walmart").style.zIndex = 619;
 		
 		setTimeout(
 			function() {
@@ -135,63 +168,16 @@
 			[],
 			{pane: "mask", style: {fillColor: "black", fillOpacity: 0.8, stroke: false}}
 		).addTo(_map);
-
-		_fg$DollarGenerals = L.retailMarkerGroup(
-			[],
-			L.icon({
-				iconUrl: "resources/icon-dollar-gen.png", 
-				iconSize: [20, 20],
-				iconAnchor: [10, 10]
-			}),
-			"dgs"
-		).addTo(_map).on("click", onMarkerClick);
-		_fg$Starbucks = L.retailMarkerGroup(
-			[],
-			L.icon({
-				iconUrl: "resources/icon-starbucks.png", 
-				iconSize: [20, 20],
-				iconAnchor: [10, 10]
-			}),
-			"starbucks"
-		).on("click", onMarkerClick);
-		_fg$McDonalds = L.retailMarkerGroup(
-			[],
-			L.icon({
-				iconUrl: "resources/icon-mcds.png", 
-				iconSize: [22, 22],
-				iconAnchor: [11, 11]
-			}),
-			"mcdonalds"			
-		).on("click", onMarkerClick);
-		_fg$Walmarts = L.retailMarkerGroup(
-			[],
-			L.icon({
-				iconUrl: "resources/icon-walmart.png", 
-				iconSize: [34, 34],
-				iconAnchor: [17, 17]
-			}),
-			"walmart"
-		).addTo(_map).on("click", onMarkerClick);
-		_fg$WholeFoods = L.retailMarkerGroup(
-			[],
-			L.icon({
-				iconUrl: "resources/icon-whole-foods.png", 
-				iconSize: [34, 34],
-				iconAnchor: [17, 17]
-			}),
-			"wholefoods"			
-		).on("click", onMarkerClick);
 		
-		var lut = {};
-		lut[CLASS_STARBUCKS] = _map.hasLayer(_fg$Starbucks) ? "" : "inactive";
-		lut[CLASS_WALMART] = _map.hasLayer(_fg$Walmarts) ? "" : "inactive";
-		lut[CLASS_MCDONALDS] = _map.hasLayer(_fg$McDonalds) ? "" : "inactive";
-		lut[CLASS_WHOLE_FOODS] = _map.hasLayer(_fg$WholeFoods) ? "" : "inactive";
-		lut[CLASS_DOLLAR_GENERAL] = _map.hasLayer(_fg$DollarGenerals) ? "" : "inactive";
-		
-		_buttonList = $(new ButtonList($("ul#buttonlist").get(0), lut))
-			.on("layerToggle", onLayerToggle)
-			.get(0);
+		_buttonList = $(new ButtonList(
+			$("ul#buttonlist").get(0), 
+			_master.reduce(
+				function(o, val) {o[val.name] = _map.hasLayer(val.layer);return o;},
+				{}
+			)
+		))
+		.on("layerToggle", onLayerToggle)
+		.get(0);
 		
 		// one time check to see if touch is being used
 
@@ -273,11 +259,11 @@
 	
 	function onLayerToggle(event, className, visibility)
 	{
-		var fg = className === CLASS_STARBUCKS ? _fg$Starbucks :
-				className === CLASS_DOLLAR_GENERAL ? _fg$DollarGenerals :
-				className === CLASS_WALMART ? _fg$Walmarts :
-				className === CLASS_MCDONALDS ? _fg$McDonalds : 
-				className === CLASS_WHOLE_FOODS ? _fg$WholeFoods : null;
+		
+		var fg = $.grep(
+			_master, 
+			function(value, index){return value.name === className;}
+		).shift().layer;
 		
 		if (visibility) {
 			_map.removeLayer(fg);
@@ -306,11 +292,10 @@
 
 		_buttonList.clearValues();
 		
-		_fg$Starbucks.clearLayers();
-		_fg$Walmarts.clearLayers();
-		_fg$DollarGenerals.clearLayers();
-		_fg$WholeFoods.clearLayers();
-		_fg$McDonalds.clearLayers();
+		$.each(
+			$.map(_master, function(value){return value.layer;}), 
+			function(idx, fg){fg.clearLayers();}
+		);
 		
 		var state = $.grep(
 			_states, 
@@ -362,48 +347,20 @@
 					_fg$States.addData(featureCollection);
 				}
 			);
+		
+		$.each(
+			_master, 
+			function(index, value) {
+				new QueryManager(value.url).getRecords(
+					STATE, 
+					function(results){
+						_buttonList.setValue(value.name, results.length);
+						value.layer.addIcons(results);
+					}
+				);
+			}
+		);
 
-		
-		new QueryManager(SERVICE_URL_STARBUCKS).getRecords(
-			STATE, 
-			function(results){
-				_buttonList.setValue(CLASS_STARBUCKS, results.length);
-				_fg$Starbucks.addIcons(results);
-			}
-		);
-		
-		new QueryManager(SERVICE_URL_MCDONALDS).getRecords(
-			STATE,
-			function(results) {
-				_buttonList.setValue(CLASS_MCDONALDS, results.length);
-				_fg$McDonalds.addIcons(results);
-			}
-		);
-		
-		new QueryManager(SERVICE_URL_WALMART).getRecords(
-			STATE,
-			function(results){
-				_buttonList.setValue(CLASS_WALMART, results.length);
-				_fg$Walmarts.addIcons(results);
-			}
-		);
-		
-		new QueryManager(SERVICE_URL_DOLLARGENERAL).getRecords(
-			STATE,
-			function(results){
-				_buttonList.setValue(CLASS_DOLLAR_GENERAL, results.length);
-				_fg$DollarGenerals.addIcons(results);
-			}
-		);
-		
-		new QueryManager(SERVICE_URL_WHOLEFOODS).getRecords(
-			STATE,
-			function(results){
-				_buttonList.setValue(CLASS_WHOLE_FOODS, results.length);
-				_fg$WholeFoods.addIcons(results);
-			}
-		);
-				
 	}
 
 	/***************************************************************************
