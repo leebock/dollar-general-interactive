@@ -206,6 +206,8 @@ a, button {
   padding: 10px;
   border-radius: 10px;
   border-color: black;
+  display: flex;
+  flex-direction: column;
 }
 @media (max-width: 500px) {
   #main #info ul li button {
@@ -216,10 +218,12 @@ a, button {
 }
 #main #info ul li button span {
   pointer-events: none;
-  font-size: 40px;
+}
+#main #info ul li button span:nth-of-type(2) {
+  font-size: 38px;
 }
 @media (max-aspect-ratio: 1/1) {
-  #main #info ul li button span {
+  #main #info ul li button span:nth-of-type(2) {
     font-size: 22px;
   }
 }
@@ -230,12 +234,18 @@ a, button {
   background: #67c823;
   color: white;
 }
+#main #info ul li.whole-foods button span:nth-of-type(1)::before {
+  content: "Whole Foods";
+}
 #main #info ul li.dollar-general {
   order: 1;
 }
 #main #info ul li.dollar-general button {
   background: yellow;
   color: black;
+}
+#main #info ul li.dollar-general button span:nth-of-type(1)::before {
+  content: "Dollar General";
 }
 #main #info ul li.starbucks {
   order: 3;
@@ -244,6 +254,9 @@ a, button {
   background: green;
   color: white;
 }
+#main #info ul li.starbucks button span:nth-of-type(1)::before {
+  content: "Starbucks";
+}
 #main #info ul li.walmart {
   order: 2;
 }
@@ -251,12 +264,18 @@ a, button {
   background: blue;
   color: white;
 }
+#main #info ul li.walmart button span:nth-of-type(1)::before {
+  content: "Walmart";
+}
 #main #info ul li.mcdonalds {
   order: 4;
 }
 #main #info ul li.mcdonalds button {
   background: red;
   color: yellow;
+}
+#main #info ul li.mcdonalds button span:nth-of-type(1)::before {
+  content: "McDonalds";
 }
 #main #info ul li.inactive button {
   background: none;

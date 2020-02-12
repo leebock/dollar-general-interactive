@@ -155,7 +155,12 @@
 					$("<li>")
 						.addClass(className)
 						.addClass(_map.hasLayer(layer) ? "" : "inactive")
-						.append($("<button>").click(button_click))
+						.append(
+							$("<button>")
+								.append($("<span>"))
+								.append($("<span>"))
+								.click(button_click)
+						)
 				);
 			}
 		);
@@ -281,11 +286,7 @@
 
 		var STATE = $("#info select").val();
 
-		$("#info ul li."+CLASS_STARBUCKS+" button").html("Starbucks<br>"+"<span>---</span>");
-		$("#info ul li."+CLASS_MCDONALDS+" button").html("McDonalds<br>"+"<span>---</span>");
-		$("#info ul li."+CLASS_WALMART+" button").html("Walmarts<br>"+"<span>---</span>");
-		$("#info ul li."+CLASS_DOLLAR_GENERAL+" button").html("Dollar Generals<br>"+"<span>---</span>");
-		$("#info ul li."+CLASS_WHOLE_FOODS+" button").html("Whole Foods<br>"+"<span>---</span>");
+		$("#info ul li button span:nth-of-type(2)").html("---");
 		
 		_fg$Starbucks.clearLayers();
 		_fg$Walmarts.clearLayers();
@@ -348,7 +349,7 @@
 		new QueryManager(SERVICE_URL_STARBUCKS).getRecords(
 			STATE, 
 			function(results){
-				$("#info ul li."+CLASS_STARBUCKS+" button").html("Starbucks<br><span>"+results.length+"</span>");
+				$("#info ul li."+CLASS_STARBUCKS+" button span:nth-of-type(2)").html(results.length);
 				loadFeatureGroup(
 					_fg$Starbucks, 
 					results, 						
@@ -373,7 +374,7 @@
 		new QueryManager(SERVICE_URL_MCDONALDS).getRecords(
 			STATE,
 			function(results) {
-				$("#info ul li."+CLASS_MCDONALDS+" button").html("McDonalds<br><span>"+results.length+"</span>");
+				$("#info ul li."+CLASS_MCDONALDS+" button span:nth-of-type(2)").html(results.length);
 				loadFeatureGroup(
 					_fg$McDonalds, 
 					results, 						
@@ -398,7 +399,7 @@
 		new QueryManager(SERVICE_URL_WALMART).getRecords(
 			STATE,
 			function(results){
-				$("#info ul li."+CLASS_WALMART+" button").html("Walmarts<br><span>"+results.length+"</span>");
+				$("#info ul li."+CLASS_WALMART+" button span:nth-of-type(2)").html(results.length);
 				loadFeatureGroup(
 					_fg$Walmarts,
 					results,
@@ -423,7 +424,7 @@
 		new QueryManager(SERVICE_URL_DOLLARGENERAL).getRecords(
 			STATE,
 			function(results){
-				$("#info ul li."+CLASS_DOLLAR_GENERAL+" button").html("Dollar Generals<br><span>"+results.length+"</span>");
+				$("#info ul li."+CLASS_DOLLAR_GENERAL+" button span:nth-of-type(2)").html(results.length);
 				loadFeatureGroup(
 					_fg$DollarGenerals, 
 					results, 
@@ -448,7 +449,7 @@
 		new QueryManager(SERVICE_URL_WHOLEFOODS).getRecords(
 			STATE,
 			function(results){
-				$("#info ul li."+CLASS_WHOLE_FOODS+" button").html("Whole Foods<br><span>"+results.length+"</span>");
+				$("#info ul li."+CLASS_WHOLE_FOODS+" button span:nth-of-type(2)").html(results.length);
 				loadFeatureGroup(
 					_fg$WholeFoods, 
 					results,

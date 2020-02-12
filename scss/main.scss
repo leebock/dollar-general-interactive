@@ -176,6 +176,8 @@ a, button {
           padding: 10px;
           border-radius: 10px;
           border-color: black;
+          display: flex;
+          flex-direction: column;
           @media (max-width: 500px) {
             width: 120px;
             font-size: 14px;
@@ -183,7 +185,9 @@ a, button {
           }
           span {
             pointer-events: none;
-            font-size: 40px;
+          }
+          span:nth-of-type(2) {
+            font-size: 38px;
             @media (max-aspect-ratio: 1/1) {
               font-size: 22px;
             }
@@ -194,6 +198,11 @@ a, button {
           button {
             background: rgb(103,200,35);
             color: white;            
+            span:nth-of-type(1) {
+              &::before {
+                content: "Whole Foods";
+              }
+            }
           }
         }
         &.dollar-general {
@@ -201,13 +210,23 @@ a, button {
           button {
             background: yellow;
             color: black;            
+            span:nth-of-type(1) {
+              &::before {
+                content: "Dollar General";
+              }
+            }
           }
         }
         &.starbucks {
           order: 3;
           button {
             background: green;
-            color: white;            
+            color: white;
+            span:nth-of-type(1) {
+              &::before {
+                content: "Starbucks";
+              }
+            }
           }
         }
         &.walmart {
@@ -215,6 +234,11 @@ a, button {
           button {
             background: blue;
             color: white;
+            span:nth-of-type(1) {
+              &::before {
+                content: "Walmart";
+              }
+            }
           }
         }
         &.mcdonalds {
@@ -222,6 +246,11 @@ a, button {
           button {
             background: red;
             color: yellow;
+            span:nth-of-type(1) {
+              &::before {
+                content: "McDonalds";
+              }
+            }
           }
         }
         &.inactive {
