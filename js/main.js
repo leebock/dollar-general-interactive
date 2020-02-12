@@ -134,11 +134,51 @@
 			{pane: "mask", style: {fillColor: "black", fillOpacity: 0.8, stroke: false}}
 		).addTo(_map);
 
-		_fg$DollarGenerals = L.featureGroup().addTo(_map).on("click", onMarkerClick);
-		_fg$Starbucks = L.featureGroup().on("click", onMarkerClick);
-		_fg$McDonalds = L.featureGroup().on("click", onMarkerClick);
-		_fg$Walmarts = L.featureGroup().addTo(_map).on("click", onMarkerClick);
-		_fg$WholeFoods = L.featureGroup().on("click", onMarkerClick);
+		_fg$DollarGenerals = L.retailMarkerGroup(
+			[],
+			L.icon({
+				iconUrl: "resources/icon-dollar-gen.png", 
+				iconSize: [20, 20],
+				iconAnchor: [10, 10]
+			}),
+			"dgs"
+		).addTo(_map).on("click", onMarkerClick);
+		_fg$Starbucks = L.retailMarkerGroup(
+			[],
+			L.icon({
+				iconUrl: "resources/icon-starbucks.png", 
+				iconSize: [20, 20],
+				iconAnchor: [10, 10]
+			}),
+			"starbucks"
+		).on("click", onMarkerClick);
+		_fg$McDonalds = L.retailMarkerGroup(
+			[],
+			L.icon({
+				iconUrl: "resources/icon-mcds.png", 
+				iconSize: [22, 22],
+				iconAnchor: [11, 11]
+			}),
+			"mcdonalds"			
+		).on("click", onMarkerClick);
+		_fg$Walmarts = L.retailMarkerGroup(
+			[],
+			L.icon({
+				iconUrl: "resources/icon-walmart.png", 
+				iconSize: [34, 34],
+				iconAnchor: [17, 17]
+			}),
+			"walmart"
+		).addTo(_map).on("click", onMarkerClick);
+		_fg$WholeFoods = L.retailMarkerGroup(
+			[],
+			L.icon({
+				iconUrl: "resources/icon-whole-foods.png", 
+				iconSize: [34, 34],
+				iconAnchor: [17, 17]
+			}),
+			"wholefoods"			
+		).on("click", onMarkerClick);
 		
 		var lut = {};
 		lut[CLASS_STARBUCKS] = _fg$Starbucks;
@@ -350,24 +390,7 @@
 			STATE, 
 			function(results){
 				$("#info ul li."+CLASS_STARBUCKS+" button span:nth-of-type(2)").html(results.length);
-				loadFeatureGroup(
-					_fg$Starbucks, 
-					results, 						
-					function(latLng) {
-						return L.marker(
-							latLng, 
-							{
-								icon: 
-								L.icon({
-									iconUrl: "resources/icon-starbucks.png", 
-									iconSize: [20, 20],
-									iconAnchor: [10, 10]
-								}),
-								pane: "starbucks"
-							}
-						);
-					} 
-				);
+				_fg$Starbucks.addIcons(results);
 			}
 		);
 		
@@ -375,24 +398,7 @@
 			STATE,
 			function(results) {
 				$("#info ul li."+CLASS_MCDONALDS+" button span:nth-of-type(2)").html(results.length);
-				loadFeatureGroup(
-					_fg$McDonalds, 
-					results, 						
-					function(latLng) {
-						return L.marker(
-							latLng, 
-							{
-								icon: 
-								L.icon({
-									iconUrl: "resources/icon-mcds.png", 
-									iconSize: [22, 22],
-									iconAnchor: [11, 11]
-								}),
-								pane: "mcdonalds"
-							}
-						);
-					} 
-				);
+				_fg$McDonalds.addIcons(results);
 			}
 		);
 		
@@ -400,24 +406,7 @@
 			STATE,
 			function(results){
 				$("#info ul li."+CLASS_WALMART+" button span:nth-of-type(2)").html(results.length);
-				loadFeatureGroup(
-					_fg$Walmarts,
-					results,
-					function(latLng) {
-						return L.marker(
-							latLng, 
-							{
-								icon: 
-								L.icon({
-									iconUrl: "resources/icon-walmart.png", 
-									iconSize: [34, 34],
-									iconAnchor: [17, 17]
-								}),
-								pane: "walmart"
-							}
-						);
-					} 					
-				);
+				_fg$Walmarts.addIcons(results);
 			}
 		);
 		
@@ -425,24 +414,7 @@
 			STATE,
 			function(results){
 				$("#info ul li."+CLASS_DOLLAR_GENERAL+" button span:nth-of-type(2)").html(results.length);
-				loadFeatureGroup(
-					_fg$DollarGenerals, 
-					results, 
-					function(latLng) {
-						return L.marker(
-							latLng, 
-							{
-								icon: 
-								L.icon({
-									iconUrl: "resources/icon-dollar-gen.png", 
-									iconSize: [20, 20],
-									iconAnchor: [10, 10]
-								}),
-								pane: "dgs"
-							}
-						);
-					} 
-				);
+				_fg$DollarGenerals.addIcons(results);
 			}
 		);
 		
@@ -450,47 +422,10 @@
 			STATE,
 			function(results){
 				$("#info ul li."+CLASS_WHOLE_FOODS+" button span:nth-of-type(2)").html(results.length);
-				loadFeatureGroup(
-					_fg$WholeFoods, 
-					results,
-					function(latLng) {
-						return L.marker(
-							latLng, 
-							{
-								icon: 
-								L.icon({
-									iconUrl: "resources/icon-whole-foods.png", 
-									iconSize: [34, 34],
-									iconAnchor: [17, 17]
-								}),
-								pane: "wholefoods"
-							}
-						);
-					} 										
-				);
+				_fg$WholeFoods.addIcons(results);
 			}
 		);
-		
-		function loadFeatureGroup(featureGroup, records, markerCreator)
-		{
-			$.each(
-				records, 
-				function(index, record) {
-					markerCreator(record.getLatLng())
-						.bindPopup(
-							record.getName()+"<br>"+
-							record.getAddress()+"<br>"+
-							record.getCity()+", "+record.getState(), 
-							{closeButton: false}
-						)
-						.bindTooltip(
-							record.getCity()+", "+record.getState()							
-						)
-						.addTo(featureGroup);
-				}
-			);	
-		}
-		
+				
 	}
 
 	/***************************************************************************
