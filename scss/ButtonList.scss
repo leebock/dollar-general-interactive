@@ -28,7 +28,8 @@ ul#buttonlist {
     }
     @media (max-aspect-ratio: 1/1) {
       flex-direction: row;
-      width: 140px;
+      width: 155px;
+      margin: 0px;
     }
     button {
       width: 97%;
@@ -56,15 +57,18 @@ ul#buttonlist {
           font-size: 20px;
           @media (max-aspect-ratio: 1/1) {
             text-align: left;
-            font-size: 16px;
+            font-size: 14px;
           }
         }
       }
       div.lower {
-        font-size: 38px;
+        font-size: 42px;
         padding-left: 35px;
         @media (max-aspect-ratio: 1/1) {
           font-size: 22px;
+        }
+        @media (max-height: 800px) {
+          font-size: 26px;
         }
       }
       span, div {
