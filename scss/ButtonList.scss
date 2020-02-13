@@ -49,7 +49,7 @@ ul#buttonlist {
       }
     }
     &.whole-foods {
-      order: 5;
+      order: 1;
       button {
         background: rgb(103,200,35);
         color: white;            
@@ -61,7 +61,7 @@ ul#buttonlist {
       }
     }
     &.dollar-general {
-      order: 1;
+      order: 2;
       button {
         background: yellow;
         color: black;            
@@ -85,7 +85,7 @@ ul#buttonlist {
       }
     }
     &.walmart {
-      order: 2;
+      order: 5;
       button {
         background: blue;
         color: white;
