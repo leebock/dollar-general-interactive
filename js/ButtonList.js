@@ -14,8 +14,13 @@ function ButtonList(ul, lut)
                     .append(
                         $("<button>")
                             .attr("value", className)
-                            .append($("<span>"))
-                            .append($("<span>"))
+                            .append(
+                                $("<div>")
+                                    .addClass("upper")
+                                    .append($("<span>"))
+                                    .append($("<span>"))
+                            )
+                            .append($("<div>").addClass("lower"))
                             .click(button_click)
                     )
             );
@@ -34,9 +39,9 @@ function ButtonList(ul, lut)
 }
 
 ButtonList.prototype.clearValues = function() {
-    $(this._ul).find("li button span:nth-of-type(2)").html("---");
+    $(this._ul).find("li button div.lower").html("---");
 };
 
 ButtonList.prototype.setValue = function(className, value) {
-    $(this._ul).find("li."+className).find("button span:nth-of-type(2)").html(value);
+    $(this._ul).find("li."+className).find("button div.lower").html(value);
 };

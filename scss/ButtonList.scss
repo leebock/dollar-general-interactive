@@ -15,104 +15,180 @@ ul#buttonlist {
   -moz-margin-end: 0px;
   -moz-padding-start: 0px;
   -moz-padding-end: 0px;      
-  @media/*(max-height: 1023px) and*/ (max-aspect-ratio: 1/1) {
+  @media (max-aspect-ratio: 1/1) {
     flex-direction: row;
+    justify-content: center;
   }
   li {
     margin: 5px;
+    width: 100%;
     @media (max-width: 500px) {
       margin: 2px;
+      width: 120px;
+    }
+    @media (max-aspect-ratio: 1/1) {
+      flex-direction: row;
+      width: 140px;
     }
     button {
-      width: 140px;
+      width: 97%;
       font-size: 16px;
       background: none;
-      border-style: solid;
+      border: none;
       padding: 10px;
-      border-radius: 10px;
-      border-color: black;
       display: flex;
       flex-direction: column;
       @media (max-width: 500px) {
-        width: 120px;
         font-size: 14px;
         padding: 5px;
       }
-      span {
-        pointer-events: none;
+      div.upper {
+        span:nth-of-type(1) {
+          width: 30px;
+          height: 30px;
+          margin-right: 5px;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+        span:nth-of-type(2) {
+          color: #838383;
+          font-weight: bold;
+          font-size: 20px;
+          @media (max-aspect-ratio: 1/1) {
+            text-align: left;
+            font-size: 16px;
+          }
+        }
       }
-      span:nth-of-type(2) {
+      div.lower {
         font-size: 38px;
+        padding-left: 35px;
         @media (max-aspect-ratio: 1/1) {
           font-size: 22px;
         }
+      }
+      span, div {
+        pointer-events: none;
       }
     }
     &.whole-foods {
       order: 1;
       button {
-        background: rgb(103,200,35);
-        color: white;            
-        span:nth-of-type(1) {
-          &::before {
-            content: "Whole Foods";
+        div.upper {
+          span:nth-of-type(1) {
+            background-image: url("../resources/Dash Wholefoods on.png");
           }
+          span:nth-of-type(2) {
+            &::before {
+              content: "Whole Foods";
+            }
+          }
+        }            
+      }
+      &.inactive {
+        button {
+          div.upper {
+            span:nth-of-type(1) {
+              background-image: url("../resources/Dash Wholefoods off.png");
+            }
+          }            
         }
       }
     }
     &.dollar-general {
       order: 2;
       button {
-        background: yellow;
-        color: black;            
-        span:nth-of-type(1) {
-          &::before {
-            content: "Dollar General";
+        div.upper {
+          span:nth-of-type(1) {
+            background-image: url("../resources/Dash Dollar on.png");
           }
+          span:nth-of-type(2) {
+            &::before {
+              content: "Dollar General";
+            }
+          }
+        }            
+      }
+      &.inactive {
+        button {
+          div.upper {
+            span:nth-of-type(1) {
+              background-image: url("../resources/Dash Dollar off.png");
+            }
+          }            
         }
       }
     }
     &.starbucks {
       order: 3;
       button {
-        background: green;
-        color: white;
-        span:nth-of-type(1) {
-          &::before {
-            content: "Starbucks";
+        div.upper {
+          span:nth-of-type(1) {
+            background-image: url("../resources/Dash Starbucks on.png");
           }
+          span:nth-of-type(2) {
+            &::before {
+              content: "Starbucks";
+            }
+          }
+        }            
+      }
+      &.inactive {
+        button {
+          div.upper {
+            span:nth-of-type(1) {
+              background-image: url("../resources/Dash Starbucks off.png");
+            }
+          }            
         }
       }
     }
     &.walmart {
       order: 5;
       button {
-        background: blue;
-        color: white;
-        span:nth-of-type(1) {
-          &::before {
-            content: "Walmart";
+        div.upper {
+          span:nth-of-type(1) {
+            background-image: url("../resources/Dash walmart on.png");
           }
+          span:nth-of-type(2) {
+            &::before {
+              content: "Walmart";
+            }
+          }
+        }            
+      }
+      &.inactive {
+        button {
+          div.upper {
+            span:nth-of-type(1) {
+              background-image: url("../resources/Dash Walmart off.png");
+            }
+          }            
         }
       }
     }
     &.mcdonalds {
       order: 4;
       button {
-        background: red;
-        color: yellow;
-        span:nth-of-type(1) {
-          &::before {
-            content: "McDonalds";
+        div.upper {
+          span:nth-of-type(1) {
+            background-image: url("../resources/Dash McDs On.png");
           }
-        }
+          span:nth-of-type(2) {
+            &::before {
+              content: "McDonalds";
+            }
+          }
+        }            
       }
-    }
-    &.inactive {
-      button {
-        background: none;
-        border-color: gray;
-        color: black;
+      &.inactive {
+        button {
+          div.upper {
+            span:nth-of-type(1) {
+              background-image: url("../resources/Dash McDs off.png");
+            }
+          }            
+        }
       }
     }
   }
