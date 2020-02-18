@@ -114,14 +114,14 @@ a, button {
     display: flex;
     flex-direction: column;
 
-    @media/*(max-height: 1023px) and*/ (max-aspect-ratio: 1/1) {
+    @media (max-aspect-ratio: 1/1) {
       left: 50%;
       -webkit-transform: translateX(-50%);
       transform: translateX(-50%);      
       top: 0px;
       max-height: 50%;
       width: 100%;
-      max-width: 500px;
+      max-width: 900px;
       margin-left: auto;;
       margin-right: auto;
     }
