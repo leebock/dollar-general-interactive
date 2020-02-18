@@ -152,7 +152,26 @@ a, button {
     padding: 5px;
   }
 }
-#main #info select {
+#main #info div#state-selector {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 5px;
+}
+#main #info div#state-selector div:nth-of-type(1) {
+  font-weight: bold;
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+@media (max-aspect-ratio: 1/1) {
+  #main #info div#state-selector {
+    flex-direction: row;
+  }
+  #main #info div#state-selector div:nth-of-type(1) {
+    margin-right: 10px;
+  }
+}
+#main #info div#state-selector select {
   flex: 0;
   flex-shrink: 0;
   font-size: 24px;
@@ -160,11 +179,10 @@ a, button {
   background-color: gray;
   color: white;
   border: none;
-  margin: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 @media (max-width: 500px) {
-  #main #info select {
+  #main #info div#state-selector select {
     font-size: 16px;
   }
 }
