@@ -15,8 +15,8 @@
 			url: "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/infogroup012020_walmart/FeatureServer/0", 
 			icon: {
 				iconUrl: "resources/icon-walmart.png", 
-				iconSize: [34, 34],
-				iconAnchor: [17, 17]
+				iconSize: [22, 22],
+				iconAnchor: [11, 11]
 			}
 		},
 		{
@@ -24,8 +24,8 @@
 			url: "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/infogroup012020_mcdonalds/FeatureServer/0", 
 			icon: {
 				iconUrl: "resources/icon-mcds.png", 
-				iconSize: [22, 22],
-				iconAnchor: [11, 11]
+				iconSize: [16, 16],
+				iconAnchor: [8, 8]
 			}
 		},
 		{
@@ -33,8 +33,8 @@
 			url: "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/infogroup012020_starbucks/FeatureServer/0", 
 			icon: {
 				iconUrl: "resources/icon-starbucks.png", 
-				iconSize: [20, 20],
-				iconAnchor: [10, 10]
+				iconSize: [16, 16],
+				iconAnchor: [8, 8]
 			}
 		},
 		{
@@ -42,8 +42,8 @@
 			url: "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/infogroup012020_dollargeneral/FeatureServer/0", 
 			icon: {
 				iconUrl: "resources/icon-dollar-gen.png", 
-				iconSize: [20, 20],
-				iconAnchor: [10, 10]
+				iconSize: [16, 16],
+				iconAnchor: [8, 8]
 			}
 		},
 		{
@@ -51,8 +51,8 @@
 			url: "https://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/infogroup012020_wholefoods/FeatureServer/0", 
 			icon: {
 				iconUrl: "resources/icon-whole-foods.png", 
-				iconSize: [34, 34],
-				iconAnchor: [17, 17]
+				iconSize: [22, 22],
+				iconAnchor: [11, 11]
 			}
 		}
 	];
