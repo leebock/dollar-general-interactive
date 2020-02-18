@@ -309,7 +309,7 @@
 		
 		// frame the state
 		_fullExtent = state.getBounds();
-		_map.fitBounds(L.latLngBounds(_fullExtent).pad(-0.1));	
+		_map.fitBounds(L.latLngBounds(_fullExtent));	
 
 		_fg$Counties.clearLayers();
 		L.esri.query({
