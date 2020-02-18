@@ -159,7 +159,10 @@
 					};					
 				},
 				onEachFeature: function(feature, layer) {
-					layer.bindTooltip(feature.properties.NAME+" County: "+feature.properties.POPULATION.toLocaleString());
+					layer.bindTooltip(
+						feature.properties.NAME+" County: "+
+						feature.properties.POP_SQMI.toLocaleString()+
+						" persons / sq. mile");
 				}
 			}
 		);
@@ -318,12 +321,12 @@
 					_fg$Counties.addData(featureCollection);
 					var values = $.map(
 						featureCollection.features, 
-						function(feature){return feature.properties.POPULATION;}
+						function(feature){return feature.properties.POP_SQMI;}
 					).sort(function(a,b){return a-b;});
 					var increment = Math.floor(values.length / 5);
 					_fg$Counties.setStyle(
 						function(feature) {
-							return {fillColor: getColor(feature.properties.POPULATION)};
+							return {fillColor: getColor(feature.properties.POP_SQMI)};
 							function getColor(population)
 							{
 								return population <= values[increment] ? "#F5F500" :
