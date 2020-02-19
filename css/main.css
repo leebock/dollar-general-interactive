@@ -174,7 +174,7 @@ a, button {
 #main #info div#state-selector select {
   flex: 0;
   flex-shrink: 0;
-  font-size: 24px;
+  font-size: 18px;
   padding: 5px;
   background-color: gray;
   color: white;
