@@ -132,6 +132,8 @@ a, button {
   top: 15px;
   display: flex;
   flex-direction: column;
+  /* if browser / device is in portrait mode, center the info div horizontally and 
+    limit height and width */
   /*defines ul#buttonlist */
 }
 @media (max-aspect-ratio: 1/1) {
@@ -157,6 +159,8 @@ a, button {
   flex-direction: column;
   align-items: flex-start;
   padding: 5px;
+  /* stack horizontally for portrait mode so that label and selector are 
+    next to each other */
 }
 #main #info div#state-selector div:nth-of-type(1) {
   font-weight: bold;
@@ -247,6 +251,13 @@ a, button {
   background-position: center;
   background-repeat: no-repeat;
 }
+@media (max-height: 800px) {
+  #main #info ul#buttonlist li button div.upper span:nth-of-type(1) {
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+  }
+}
 #main #info ul#buttonlist li button div.upper span:nth-of-type(2) {
   color: black;
   font-weight: bold;
@@ -272,6 +283,11 @@ a, button {
 @media (max-height: 800px) {
   #main #info ul#buttonlist li button div.lower {
     font-size: 26px;
+  }
+}
+@media (max-height: 600px) {
+  #main #info ul#buttonlist li button div.lower {
+    font-size: 15px;
   }
 }
 #main #info ul#buttonlist li button span, #main #info ul#buttonlist li button div {
