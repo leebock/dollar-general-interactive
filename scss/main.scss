@@ -112,6 +112,8 @@ a, button {
     display: flex;
     flex-direction: column;
 
+    /* if browser / device is in portrait mode, center the info div horizontally and 
+      limit height and width */
     @media (max-aspect-ratio: 1/1) {
       left: 50%;
       -webkit-transform: translateX(-50%);
@@ -137,6 +139,8 @@ a, button {
         font-size: 15px;
         margin-bottom: 5px;
       }
+      /* stack horizontally for portrait mode so that label and selector are 
+        next to each other */
       @media (max-aspect-ratio: 1/1) {
         flex-direction: row;
         div:nth-of-type(1) {
