@@ -141,7 +141,7 @@
 		);
 		
 		L.esri.tiledMapLayer(
-			{url: "http://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer",
+			{url: "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer",
 			pane: "transportation"}
 		)
 		.addTo(_map);			
